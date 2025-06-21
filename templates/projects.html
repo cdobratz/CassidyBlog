@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects | Cassidy Dobratz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</head>
+<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
+    <header class="max-w-5xl mx-auto px-4 pt-8 pb-6 flex flex-col items-center">
+        <a href="{{ url_for('index') }}" class="site-title text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
+        <nav class="flex gap-4">
+            <a href="{{ url_for('index') }}#about" class="hover:underline">About</a>
+            <a href="{{ url_for('projects') }}" class="hover:underline">Projects</a>
+            <a href="{{ url_for('blog') }}" class="hover:underline">Blog</a>
+        </nav>
+    </header>
+    <main class="max-w-6xl mx-auto px-4 py-12">
+        <h2 class="text-3xl font-semibold mb-8 text-emerald-400 tracking-tight">Highlighted Projects</h2>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Example Project Card -->
+            <a href="https://github.com/cdobratz/RecipeApp_AI" target="_blank" class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300">
+                <div class="h-40 bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 4h16v2H4z"></path><path d="M7 11h10"></path><path d="M7 16h10"></path><path d="M8 4v16"></path>
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-emerald-300">RecipeApp AI</h3>
+                    <p class="text-slate-300 mb-4">Conversational recipe recommendation engine using GPT-powered natural-language search and nutrition constraints.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Python/FastAPI</span>
+                        <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">Docker</span>
+                        <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">OpenRouter</span>
+                    </div>
+                </div>
+            </a>
+            <!-- Second Project cards here, following the same structure -->
+            <a href="https://github.com/cdobratz/NFL-Sentiment-Analyzer" target="_blank" class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300">
+                <div class="h-40 bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 4h16v2H4z"></path><path d="M7 11h10"></path><path d="M7 16h10"></path><path d="M8 4v16"></path>
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-emerald-300">NFL Sentiment Analyzer</h3>
+                    <p class="text-slate-300 mb-4">A real-time sentiment analysis tool for NFL games that helps fans and analysts understand the public sentiment around games, teams, and players. Built with modern MLOps practices and scalable architecture.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Huggingface Transformers</span>
+                        <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">Python/FastAPI</span>
+                        <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">X API</span>
+                        <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">Docker</span>
+                    </div>
+                </div>
+            </a>
+            <!-- Third Project cards here, following the same structure -->
+            <a href="https://gitlab.com/cdobratz/mcp-server" target="_blank" class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300">
+                <div class="h-40 bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 4h16v2H4z"></path><path d="M7 11h10"></path><path d="M7 16h10"></path><path d="M8 4v16"></path>
+                    </svg>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2 text-emerald-300">MCP Server</h3>
+                    <p class="text-slate-300 mb-4">This is a FastAPI-based server that provides APIs for processing CSV files and documents (PDF, Word). It includes agents for CSV data analysis and document content extraction.</p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Python</span>
+                        <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">FastAPI</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </main>
+    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
+        <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Cassidy Dobratz</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <a href="{{ url_for('index') }}" class="site-title">Cassidy Dobratz</a>
+        <nav>
+            <a href="{{ url_for('index') }}#about">About</a>
+            <a href="{{ url_for('index') }}#projects">Projects</a>
+            <a href="{{ url_for('blog') }}">Blog</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="blog">
+            <h2>Blog Posts</h2>
+            <div class="blog-grid">
+                {% for post in posts %}
+                <article class="blog-card">
+                    <h3 class="blog-title">{{ post.title }}</h3>
+                    <div class="blog-meta">
+                    </div>
+                    <a href="{{ url_for('post', slug=post.slug) }}" class="button">Read More</a>
+                </article>
+                {% endfor %}
+            </div>
+            <div class="blog-actions">
+                <a href="{{ url_for('new_post') }}" class="button">New Post</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
+    </footer>
+</body>
+</html>
