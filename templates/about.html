@@ -2,17 +2,45 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>About | Cassidy Dobratz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body>
+<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
+    <header class="max-w-5xl mx-auto px-4 pt-8 pb-6 flex flex-col items-center">
+        <a href="{{ url_for('index') }}" class="site-title text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
+        <nav class="flex gap-4">
+            <a href="{{ url_for('index') }}#about" class="hover:underline">About</a>
+            <a href="{{ url_for('projects') }}" class="hover:underline">Projects</a>
+            <a href="{{ url_for('blog') }}" class="hover:underline">Blog</a>
+        </nav>
+    </header>
     <main class="max-w-3xl mx-auto px-4 py-12">
-        <h1 class="text-4xl font-bold mb-6">About Me</h1>
-        <p class="text-lg text-slate-300">
-            Hi, I'm Cassidy, a passionate analytics engineer...
-        </p>
-        <!-- Add more about content here -->
+        <section class="bg-slate-800 rounded-2xl shadow-xl p-8">
+            <div class="flex flex-col items-center">
+                <img src="{{ url_for('static', filename='profile.jpg') }}" alt="Profile photo of Cassidy Dobratz"
+                     class="w-32 h-32 rounded-full border-4 border-emerald-400 shadow-xl mb-6">
+                <h1 class="text-3xl font-bold text-emerald-300 mb-2">About Cassidy Dobratz</h1>
+                <p class="text-slate-300 text-center mb-4">Data Analytics Engineer | Cloud Analytics | Machine Learning | Dashboard Visualization</p>
+            </div>
+            <div class="prose prose-invert text-slate-200 max-w-none mt-6">
+                <p>
+                    Hi! I'm Cassidy Dobratz, a passionate data analytics engineer focused on transforming raw data into actionable insights. With experience in cloud data platforms, machine learning pipelines, and interactive dashboards, I help organizations unlock the full potential of their data.
+                </p>
+                <p>
+                    My expertise includes Python, SQL, FastAPI, Airflow, and modern cloud analytics stacks. I love building scalable data solutions, automating workflows, and visualizing complex information in ways that drive business value.
+                </p>
+                <p>
+                    Outside of work, you'll find me exploring new tech, contributing to open source, or hiking in the mountains.
+                </p>
+                <!-- Add more personal/biographical info, fun facts, or a timeline here if you wish! -->
+            </div>
+        </section>
     </main>
+    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
+        <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
+    </footer>
 </body>
 </html>
