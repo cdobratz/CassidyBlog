@@ -8,14 +8,17 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<header class="w-full px-4 pt-8 pb-6 flex flex-col items-center">
-    <a href="{{ url_for('index') }}" class="site-title text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
-    <nav class="flex gap-4">
-        <a href="{{ url_for('index') }}#about" class="hover:underline">About</a>
-        <a href="{{ url_for('projects') }}" class="hover:underline">Projects</a>
-        <a href="{{ url_for('blog') }}" class="hover:underline">Blog</a>
-    </nav>
-</header>
+<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
+    <header class="bg-slate-800 shadow-lg">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
+            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
+            <nav class="flex gap-6 text-slate-200">
+                <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
+                <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
+                <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
+            </nav>
+        </div>
+    </header>
     <main class="max-w-3xl mx-auto px-4 py-12">
         <section class="bg-slate-800 rounded-2xl shadow-xl p-8">
             <div class="flex flex-col items-center">

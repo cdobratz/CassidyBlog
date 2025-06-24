@@ -81,9 +81,20 @@ def new_post():
     if request.method == 'POST':
         title = request.form['title']
         content = request.form['content']
-        post = Post(title=title, content=content)
-        db.session.add(post)
-        db.session.commit()
+        
+        # Create a slug from the title
+        slug = title.lower().replace(' ', '-').replace(':', '').replace('?', '').replace('!', '')
+        # Remove other special characters
+        slug = ''.join(c for c in slug if c.isalnum() or c == '-')
+        
+        # Create the full markdown content with title header
+        full_content = f"# {title}\n\n*{datetime.now().strftime('%B %d, %Y')} | By Cassidy Dobratz*\n\n{content}"
+        
+        # Save to file
+        filename = os.path.join(POSTS_DIR, f"{slug}.md")
+        with open(filename, 'w') as f:
+            f.write(full_content)
+        
         return redirect(url_for('blog'))
     return render_template('new_post.html')
 

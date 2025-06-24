@@ -5,39 +5,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Post | Cassidy Dobratz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body>
-    <header>
-        <a href="{{ url_for('index') }}" class="site-title">Cassidy Dobratz</a>
-        <nav>
-            <a href="{{ url_for('index') }}#about">About</a>
-            <a href="{{ url_for('index') }}#projects">Projects</a>
-            <a href="{{ url_for('blog') }}">Blog</a>
-            <a href="{{ url_for('index') }}#contact">Contact</a>
-        </nav>
+<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
+    <header class="bg-slate-800 shadow-lg">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
+            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
+            <nav class="flex gap-6 text-slate-200">
+                <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
+                <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
+                <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section id="new-post">
-            <h2>New Blog Post</h2>
-            <form method="POST" class="post-form">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" id="title" name="title" required>
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <section class="bg-slate-800 rounded-2xl shadow-xl p-8">
+            <h2 class="text-3xl font-semibold mb-8 text-emerald-400 tracking-tight">New Blog Post</h2>
+            <form method="POST" class="space-y-6">
+                <div>
+                    <label for="title" class="block text-emerald-300 font-medium mb-2">Title</label>
+                    <input type="text" id="title" name="title" required class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 focus:ring-emerald-400 focus:border-emerald-400">
                 </div>
-                <div class="form-group">
-                    <label for="content">Content (Markdown supported)</label>
-                    <textarea id="content" name="content" rows="10" required></textarea>
+                <div>
+                    <label for="content" class="block text-emerald-300 font-medium mb-2">Content (Markdown supported)</label>
+                    <textarea id="content" name="content" rows="12" required class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 focus:ring-emerald-400 focus:border-emerald-400 resize-vertical"></textarea>
                 </div>
-                <div class="form-actions">
-                    <button type="submit" class="button">Publish Post</button>
-                    <a href="{{ url_for('blog') }}" class="button secondary">Cancel</a>
+                <div class="flex gap-4 justify-center">
+                    <button type="submit" class="px-6 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-semibold shadow-lg transition">Publish Post</button>
+                    <a href="{{ url_for('blog') }}" class="px-6 py-2 rounded-lg border border-emerald-400 hover:bg-emerald-600 hover:text-white font-semibold transition">Cancel</a>
                 </div>
             </form>
         </section>
     </main>
 
-    <footer>
+    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
         <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
     </footer>
 </body>

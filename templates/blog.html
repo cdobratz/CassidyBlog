@@ -2,40 +2,42 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | Cassidy Dobratz</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body>
-    <header>
-        <a href="{{ url_for('index') }}" class="site-title">Cassidy Dobratz</a>
-        <nav>
-            <a href="{{ url_for('index') }}#about">About</a>
-            <a href="{{ url_for('index') }}#projects">Projects</a>
-            <a href="{{ url_for('blog') }}">Blog</a>
-        </nav>
+<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
+    <header class="bg-slate-800 shadow-lg">
+        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
+            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
+            <nav class="flex gap-6 text-slate-200">
+                <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
+                <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
+                <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section id="blog">
-            <h2>Blog Posts</h2>
-            <div class="blog-grid">
-                {% for post in posts %}
-                <article class="blog-card">
-                    <h3 class="blog-title">{{ post.title }}</h3>
-                    <div class="blog-meta">
-                    </div>
-                    <a href="{{ url_for('post', slug=post.slug) }}" class="button">Read More</a>
-                </article>
-                {% endfor %}
-            </div>
-            <div class="blog-actions">
-                <a href="{{ url_for('new_post') }}" class="button">New Post</a>
-            </div>
-        </section>
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <h2 class="text-3xl font-semibold mb-8 text-emerald-400 tracking-tight">Latest Articles</h2>
+        <div class="space-y-6">
+            {% for post in posts %}
+            <a href="{{ url_for('post', slug=post.slug) }}" class="block bg-slate-800 rounded-2xl shadow-xl p-6 hover:bg-slate-700 transition">
+                <h3 class="text-2xl font-semibold text-emerald-300 mb-2">{{ post.title }}</h3>
+                <p class="text-slate-300">{{ post.summary }}</p>
+            </a>
+            {% else %}
+            <p class="text-slate-400">No articles yet. Check back soon!</p>
+            {% endfor %}
+        </div>
+        <div class="mt-8 text-center">
+            <a href="{{ url_for('new_post') }}" class="px-6 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-semibold shadow-lg transition">New Post</a>
+        </div>
     </main>
 
-    <footer>
+    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
         <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
     </footer>
 </body>

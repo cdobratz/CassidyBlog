@@ -18,6 +18,18 @@
 </head>
 <body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
 
+  <!-- Header -->
+  <header class="bg-slate-800 shadow-lg">
+    <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
+      <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
+      <nav class="flex gap-6 text-slate-200">
+        <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
+        <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
+        <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
+      </nav>
+    </div>
+  </header>
+
   <!-- Hero -->
   <section class="max-w-5xl mx-auto px-4 pt-16 pb-10 flex flex-col items-center">
     <h1 class="text-4xl sm:text-5xl font-extrabold mb-4 text-center tracking-tight bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 bg-clip-text text-transparent animate-fade-in-up">Cassidy Dobratz</h1>
