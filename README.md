@@ -1,4 +1,4 @@
-# CassidyBlog - Personal Portfolio & Blog
+# Personal Portfolio & Blog
 
 A Flask-based personal portfolio and blog website that showcases projects, shares insights through blog posts, and provides a professional online presence. Built with modern web technologies and designed for easy deployment on Railway.
 
