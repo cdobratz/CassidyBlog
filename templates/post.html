@@ -5,34 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ post.title }} | Cassidy Dobratz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
 </head>
-<body>
-    <header>
-        <a href="{{ url_for('index') }}" class="site-title">Cassidy Dobratz</a>
-        <nav>
-            <a href="{{ url_for('index') }}#about">About</a>
-            <a href="{{ url_for('index') }}#projects">Projects</a>
-            <a href="{{ url_for('blog') }}">Blog</a>
-            <a href="{{ url_for('index') }}#contact">Contact</a>
+<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
+    <header class="max-w-5xl mx-auto px-4 pt-8 pb-6 flex flex-col items-center">
+        <a href="{{ url_for('index') }}" class="site-title text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
+        <nav class="flex gap-4">
+            <a href="{{ url_for('about') }}" class="hover:underline">About</a>
+            <a href="{{ url_for('projects') }}" class="hover:underline">Projects</a>
+            <a href="{{ url_for('blog') }}" class="hover:underline">Blog</a>
         </nav>
     </header>
 
-    <main>
-        <article class="blog-post">
-            <header class="post-header">
-                <h1>{{ post.title }}</h1>
-                
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <article class="bg-slate-800 rounded-2xl shadow-xl p-8">
+            <header class="text-center mb-8">
+                <h1 class="text-3xl font-bold text-emerald-300 mb-4">{{ post.title }}</h1>
             </header>
-            <div class="post-content">
+            <div class="prose prose-invert text-slate-200 max-w-none">
                 {{ html_content|safe }}
             </div>
-            <footer class="post-footer">
-                <a href="{{ url_for('blog') }}" class="button">← Back to Blog</a>
+            <footer class="mt-8 pt-6 border-t border-slate-700 text-center">
+                <a href="{{ url_for('blog') }}" class="px-6 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-semibold shadow-lg transition">← Back to Blog</a>
             </footer>
         </article>
     </main>
 
-    <footer>
+    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
         <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
     </footer>
 </body>
