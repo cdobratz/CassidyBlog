@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cassidy Dobratz - Data Analytics Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .hero {
+            padding: 4rem 0;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 20%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                        radial-gradient(circle at 40% 40%, rgba(120, 219, 226, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 4rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #64ffda 0%, #78dce8 50%, #ab9df2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 30px rgba(100, 255, 218, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 30px rgba(100, 255, 218, 0.5); }
+            to { text-shadow: 0 0 40px rgba(100, 255, 218, 0.8), 0 0 60px rgba(120, 220, 232, 0.6); }
+        }
+
+        .bio {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            margin: 3rem 0;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            color: #e0e6ed;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .bio::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(135deg, #64ffda, #ab9df2);
+            border-radius: 2px;
+        }
+
+        .tech-highlight {
+            color: #64ffda;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+
+        .skills-section {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            border-color: rgba(100, 255, 218, 0.5);
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.2);
+        }
+
+        .skill-category h3 {
+            color: #64ffda;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .skill-tag:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: scale(1.05);
+        }
+
+        .buttons {
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #64ffda 0%, #78dce8 100%);
+            color: #1a1a2e;
+            box-shadow: 0 10px 30px rgba(100, 255, 218, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #64ffda;
+            border: 2px solid #64ffda;
+        }
+
+        .btn-tertiary {
+            background: transparent;
+            color: #ab9df2;
+            border: 2px solid #ab9df2;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(100, 255, 218, 0.4);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(100, 255, 218, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-element:nth-child(2) { top: 60%; left: 90%; animation-delay: 2s; }
+        .floating-element:nth-child(3) { top: 80%; left: 20%; animation-delay: 4s; }
+        .floating-element:nth-child(4) { top: 30%; left: 80%; animation-delay: 1s; }
+        .floating-element:nth-child(5) { top: 70%; left: 60%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); opacity: 0.5; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .bio { font-size: 1.1rem; padding: 0 1rem; }
+            .buttons { flex-direction: column; align-items: center; }
+            .btn { width: 250px; }
+            .skills-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="container">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Cassidy Dobratz</h1>
+                
+                <div class="bio">
+                    Transforming data into actionable insights through advanced analytics and intelligent automation. I specialize in building <span class="tech-highlight">scalable ML pipelines</span>, <span class="tech-highlight">cloud-native applications</span>, and <span class="tech-highlight">real-time data processing systems</span> using modern technologies like Python, Rust, and cloud platforms.
+                    <br><br>
+                    My expertise spans from <span class="tech-highlight">FastAPI microservices</span> and <span class="tech-highlight">Docker containerization</span> to <span class="tech-highlight">AI-powered analytics</span> and <span class="tech-highlight">MongoDB data solutions</span>. I build production-ready systems that leverage machine learning for sentiment analysis, recipe intelligence, and sports analytics while maintaining robust MLOps practices and scalable architecture patterns.
+                </div>
+
+                <div class="skills-section">
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3>Languages & Frameworks</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Python</span>
+                                <span class="skill-tag">JavaScript</span>
+                                <span class="skill-tag">Rust</span>
+                                <span class="skill-tag">TypeScript</span>
+                                <span class="skill-tag">SQL</span>
+                                <span class="skill-tag">FastAPI</span>
+                                <span class="skill-tag">Flask</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3>Cloud & DevOps</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">AWS Lambda</span>
+                                <span class="skill-tag">DigitalOcean</span>
+                                <span class="skill-tag">Docker</span>
+                                <span class="skill-tag">Terraform</span>
+                                <span class="skill-tag">GitHub Actions</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3>Data & AI</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">MongoDB Atlas</span>
+                                <span class="skill-tag">HuggingFace</span>
+                                <span class="skill-tag">Sentiment Analysis</span>
+                                <span class="skill-tag">OpenRouter API</span>
+                                <span class="skill-tag">MLOps</span>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-category">
+                            <h3>Architecture & APIs</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">RESTful APIs</span>
+                                <span class="skill-tag">Microservices</span>
+                                <span class="skill-tag">Real-time Processing</span>
+                                <span class="skill-tag">Scalable Systems</span>
+                                <span class="skill-tag">CORS & Security</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <a href="#" class="btn btn-primary">View Projects</a>
+                    <a href="#" class="btn btn-secondary">Read Articles</a>
+                    <a href="#" class="btn btn-secondary">About Me</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
