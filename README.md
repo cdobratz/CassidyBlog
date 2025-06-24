@@ -1,130 +1,138 @@
-Portfolio Blog Website
+# CassidyBlog - Personal Portfolio & Blog
 
-This project is a portfolio blog website designed to showcase your work, share your insights through blog posts, and provide visitors with a way to contact you. The website is responsive and features an elegant design with smooth navigation, making it user-friendly and visually appealing.
+A Flask-based personal portfolio and blog website that showcases projects, shares insights through blog posts, and provides a professional online presence. Built with modern web technologies and designed for easy deployment on Railway.
 
-Features
+## Features
 
-Home Page:
+- **Portfolio Showcase**: Display your projects with descriptions and links
+- **Dynamic Blog**: Markdown-based blog posts with automatic parsing
+- **Responsive Design**: Mobile-friendly interface that works across all devices
+- **Contact Form**: Integrated contact functionality for visitor inquiries
+- **Clean UI**: Professional, minimalist design focused on content
 
-Welcoming header with a personalized introduction.
+## Tech Stack
 
-Navigation bar linking to different sections.
+- **Backend**: Flask (Python)
+- **Frontend**: HTML5, CSS3, JavaScript
+- **Content**: Markdown for blog posts
+- **Deployment**: Railway Platform
+- **Build System**: Nixpacks
 
-About Section:
+## Quick Start
 
-A concise description of your background, skills, and interests.
+### Local Development
 
-Portfolio Section:
+1. Clone the repository:
+```bash
+git clone https://github.com/cdobratz/CassidyBlog.git
+cd CassidyBlog
+```
 
-Showcase your projects with descriptions, images, and links to live demos or repositories.
+2. Install dependencies:
+```bash
+pip install -r requirements.txt
+```
 
-Article/Blog Section:
+3. Create content directory and add blog posts:
+```bash
+mkdir -p content/posts
+# Add your .md files to content/posts/
+```
 
-Dedicated space to share posts on topics of your interest.
+4. Run the application:
+```bash
+python app.py
+```
 
-Posts organized chronologically or by categories.
+Visit `http://localhost:8000` to view your site.
 
-Contact Section:
+### Adding Blog Posts
 
-Contact form for visitors to reach out to you.
+Create markdown files in the `content/posts/` directory. Each post should start with a title as an H1 heading:
 
-Links to social media profiles.
+```markdown
+# Your Post Title
 
-Responsive Design:
+Your post content here...
+```
 
-Optimized for various screen sizes, from mobile to desktop.
+## Deployment to Railway
 
-Search Engine Optimization (SEO):
+### Prerequisites
+- GitHub account with your repository
+- Railway account (free tier available)
 
-Meta descriptions and keywords to improve search visibility.
+### Deploy Steps
 
-Technologies Used
+1. **Connect Repository**: 
+   - Login to [Railway](https://railway.app)
+   - Click "New Project" → "Deploy from GitHub repo"
+   - Select your repository
 
-HTML5: For the structure of the website.
+2. **Configure Settings**:
+   - Railway will automatically detect it's a Python project
+   - Ensure your `railway.toml` is configured correctly:
 
-CSS3: For styling and layout.
+```toml
+[build]
+builder = "nixpacks"
 
-JavaScript: For interactivity and dynamic features.
+[deploy]
+startCommand = "python app.py"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+restartPolicyType = "always"
+```
 
-Backend Framework (Optional): To manage blog content dynamically, e.g., Node.js, Django, or Flask.
+3. **Environment Variables**:
+   - Railway automatically sets the `PORT` environment variable
+   - Add any additional environment variables in the Railway dashboard
 
-Database (Optional): To store blog posts, e.g., SQLite, PostgreSQL, or MongoDB.
+4. **Deploy**:
+   - Push changes to your main branch
+   - Railway will automatically build and deploy your application
+   - Your site will be available at `your-app-name.up.railway.app`
 
-Getting Started
+### Custom Domain (Optional)
 
-Clone the Repository:
+1. In Railway dashboard, go to your project settings
+2. Navigate to "Networking" → "Custom Domain"
+3. Add your domain and configure DNS settings
 
-git clone https://github.com/yourusername/portfolio-blog.git
+## Project Structure
 
-Navigate to the Project Directory:
+```
+CassidyBlog/
+├── app.py                 # Main Flask application
+├── requirements.txt       # Python dependencies
+├── railway.toml          # Railway deployment config
+├── templates/            # HTML templates
+├── static/              # CSS, JS, images
+├── content/             # Blog content
+│   └── posts/           # Markdown blog posts
+└── README.md            # This file
+```
 
-cd portfolio-blog
+## Configuration
 
-Set Up Dependencies:
+The application uses the following configuration:
+- **Port**: Configurable via `PORT` environment variable (default: 8000)
+- **Host**: Bound to `0.0.0.0` for Railway deployment
+- **Debug**: Disabled in production
 
-For a static site, no dependencies are required. Open the index.html file in your browser.
+## Contributing
 
-For dynamic functionality, install backend dependencies as per the chosen framework.
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
 
-Run the Application:
+## Contact
 
-For static files:
+- **Email**: cdobratz@me.me
+- **Twitter**: [@cdobratz](https://twitter.com/cdobratz)
+- **GitHub**: [cdobratz](https://github.com/cdobratz)
 
-open index.html
+---
 
-For backend-supported site:
-
-python manage.py runserver # Django Example
-
-Customize Content:
-
-Replace placeholder text and images in the HTML and CSS files with your own content.
-
-Update styles.css for personalized styling.
-
-File Structure
-
-portfolio-blog/
-├── index.html         # Main HTML file
-├── styles.css         # Stylesheet
-├── script.js          # Optional JavaScript file
-├── blog/              # Blog posts (optional, dynamic setup)
-├── images/            # Image assets
-├── README.md          # Project documentation
-└── backend/           # Backend code (if applicable)
-
-Deployment
-
-Deploy the static website to GitHub Pages, Netlify, or Vercel:
-
-GitHub Pages:
-
-git add .
-git commit -m "Initial commit"
-git push origin main
-
-Enable GitHub Pages in the repository settings.
-
-For dynamic sites, deploy to platforms like Heroku, Render, or AWS.
-
-Contributions
-
-Feel free to fork this repository, make improvements, and submit a pull request. Your contributions are always welcome!
-
-License
-
-This project is licensed under the MIT License. See the LICENSE file for more details.
-
-Contact
-
-For any questions or feedback, feel free to contact me:
-
-Email: cdobratz@me.me
-
-LinkedIn: Your LinkedIn Profile
-
-X (Twitter): @cdobratz
-
-Thank you for checking out my portfolio blog project! I hope it inspires you to build your own and showcase your amazing work.
-
-
+Built with ❤️ using Flask and deployed on Railway.
