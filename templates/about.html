@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
 </head>
 <body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
     <header class="bg-slate-800 shadow-lg">
@@ -26,12 +30,6 @@
                 <p class="text-slate-300 text-center mb-4">Data Analytics Engineer | Machine Learning Engineer | Cloud Engineer</p>
             </div>
             <div class="text-slate-200 max-w-none mt-6 space-y-6 leading-relaxed">
-                <p class="text-lg">
-                    Transforming data into actionable insights through advanced analytics and intelligent automation. I specialize in building <span class="text-emerald-400 font-semibold">scalable ML pipelines</span>, <span class="text-emerald-400 font-semibold">cloud-native applications</span>, and <span class="text-emerald-400 font-semibold">real-time data processing systems</span> using modern technologies like Python, Rust, and cloud platforms.
-                </p>
-                <p class="text-lg">
-                    My expertise spans from <span class="text-emerald-400 font-semibold">FastAPI microservices</span> and <span class="text-emerald-400 font-semibold">Docker containerization</span> to <span class="text-emerald-400 font-semibold">AI-powered analytics</span> and <span class="text-emerald-400 font-semibold">MongoDB data solutions</span>. I build production-ready systems that leverage machine learning for sentiment analysis, recipe intelligence, and sports analytics while maintaining robust MLOps practices and scalable architecture patterns.
-                </p>
                 <p>
                     My technical toolkit includes modern frameworks like FastAPI and Axum, containerization with Docker, and cloud deployment strategies across AWS Lambda, Render, and DigitalOcean. 
                     I excel at transforming complex data challenges into production-ready applications, having developed everything from NFL sentiment analyzers with MongoDB Atlas integration to AI-powered recipe parsing services using transformer models. 
@@ -44,6 +42,62 @@
                     My approach combines rigorous data science methodologies with modern software engineering practices, including MLOps, containerized deployments, and comprehensive documentation standards.
                     Whether developing sentiment analysis tools, building microservices for recipe intelligence, or creating scalable game schedule APIs, I focus on delivering maintainable, well-documented solutions that drive business value through data-driven insights and automated workflows.
                 </p>
+            </div>
+            
+            <!-- Skills Section -->
+            <div class="mt-8 p-6 bg-slate-700/50 rounded-xl border border-slate-600">
+                <h2 class="text-2xl font-semibold mb-6 text-emerald-400">Technical Skills</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-emerald-300 font-semibold mb-3">Languages & Frameworks</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Python</span>
+                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">JavaScript</span>
+                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Rust</span>
+                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">TypeScript</span>
+                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">SQL</span>
+                                <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">FastAPI</span>
+                                <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">Flask</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-emerald-300 font-semibold mb-3">Cloud & DevOps</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">AWS Lambda</span>
+                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">DigitalOcean</span>
+                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">Docker</span>
+                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">Terraform</span>
+                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">GitHub Actions</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <h3 class="text-emerald-300 font-semibold mb-3">Data & AI</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">MongoDB Atlas</span>
+                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">HuggingFace</span>
+                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">Sentiment Analysis</span>
+                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">OpenRouter API</span>
+                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">MLOps</span>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h3 class="text-emerald-300 font-semibold mb-3">Architecture & APIs</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">RESTful APIs</span>
+                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">Microservices</span>
+                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">Real-time Processing</span>
+                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">Scalable Systems</span>
+                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">CORS & Security</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
     </main>
