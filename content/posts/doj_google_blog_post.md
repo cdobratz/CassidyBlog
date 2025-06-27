@@ -1,7 +1,5 @@
 # DOJ vs. Google Chrome: What Text Mining Reveals About Media Coverage
 
-*December 16, 2024 | By Cassidy Dobratz*
-
 The tech world is buzzing with one of the biggest antitrust stories in recent memory: the U.S. Department of Justice's unprecedented push to force Google to sell its Chrome browser. But how exactly are news outlets covering this monumental story? I decided to dive deep into the media coverage using text mining techniques to uncover the hidden patterns in how this story is being told.
 
 ## The Big Picture
@@ -32,7 +30,8 @@ The visualization immediately reveals the core themes: legal terminology dominat
 Perhaps more interesting than what's being said is *how* it's being said. I analyzed the emotional sentiment throughout the coverage and created a heatmap showing how positive or negative the tone becomes across different sections:
 
 ![Chart 2](/static/uploads/doj_google_blog_post/Heatmap.png)
-* Sentiment Analysis Heatmap showing document sections on x-axis and sentiment types (positive, negative, net) on y-axis. Colors should range from red (negative) through white (neutral) to blue (positive), revealing patterns of sentiment changes throughout the coverage.]*
+
+*Sentiment Analysis Heatmap showing document sections on x-axis and sentiment types (positive, negative, net) on y-axis. Colors should range from red (negative) through white (neutral) to blue (positive), revealing patterns of sentiment changes throughout the coverage.*
 
 The results are fascinating. Rather than uniformly negative or positive coverage, there are clear emotional transitions throughout the articles. Some sections show strong negative sentiment when discussing Google's market dominance, while others become more positive when covering potential benefits for consumers and competitors.
 
@@ -41,7 +40,8 @@ The results are fascinating. Rather than uniformly negative or positive coverage
 Using advanced topic modeling techniques, I uncovered four distinct themes that run through all the coverage:
 
 ![Chart 3](/static/uploads/doj_google_blog_post/Topic Modeling.png)
-*Topic Modeling Chart showing four panels, each displaying the top 10 terms for different topics. Topics should be clearly distinguished with different colors and show terms related to: 1) Legal/Regulatory aspects, 2) Technical/Product details, 3) Business impact, 4) Market competition.]*
+
+*Topic Modeling Chart showing four panels, each displaying the top 10 terms for different topics. Topics should be clearly distinguished with different colors and show terms related to: 1) Legal/Regulatory aspects, 2) Technical/Product details, 3) Business impact, 4) Market competition.*
 
 **Topic 1: Legal and Regulatory Focus**  
 Coverage heavily emphasizes the legal framework, court proceedings, and regulatory precedents. Terms like "antitrust," "monopoly," and "court" dominate this theme.
@@ -82,6 +82,7 @@ One thing is clear from this analysis: the media is treating this as the landmar
 *This analysis was conducted using advanced text mining techniques in R, including sentiment analysis, topic modeling, and frequency analysis. The methodology employed packages like tidytext, topicmodels, and ggplot2 to extract meaningful patterns from news coverage.*
 
 **Sources:**
-- Allyn, B. (2024). "The Justice Department is Trying to Make Google Sell Off its Chrome Browser." NPR.
-- Dou, E., & Schaneman, B. (2024). "DOJ Seeks Forced Sale of Chrome." The Washington Post.
-- Limehouse, J. (2024). "DOJ proposing forced sale of Google Chrome, could fetch $20 billion if judge OKs." USA Today.
+
+- Allyn, B. (2024). "The Justice Department is Trying to Make Google Sell Off its Chrome Browser." NPR
+- Dou, E., & Schaneman, B. (2024). "DOJ Seeks Forced Sale of Chrome." The Washington Post
+- Limehouse, J. (2024). "DOJ proposing forced sale of Google Chrome, could fetch $20 billion if judge OKs." USA Today
