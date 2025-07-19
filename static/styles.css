@@ -223,6 +223,11 @@ button:hover {
     line-height: 1.4;
 }
 
+/* First H2 should have less top margin since there's no H1 in content */
+.blog-content h2:first-child {
+    margin-top: 0;
+}
+
 .blog-content h3 {
     color: #a7f3d0;
     font-size: 1.5rem;
