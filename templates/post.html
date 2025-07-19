@@ -20,12 +20,12 @@
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-12">
-        <article class="bg-slate-800 rounded-2xl shadow-xl p-8">
+    <main class="max-w-5xl mx-auto px-4 py-12">
+        <article class="bg-slate-800 rounded-2xl shadow-xl p-8 md:p-12">
             <header class="text-center mb-8">
                 <h1 class="text-3xl font-bold text-emerald-300 mb-4">{{ post.title }}</h1>
             </header>
-            <div class="prose prose-invert text-slate-200 max-w-none">
+            <div class="blog-content prose prose-invert prose-lg text-slate-200 max-w-none">
                 {{ html_content|safe }}
             </div>
             <footer class="mt-8 pt-6 border-t border-slate-700 text-center">
