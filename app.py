@@ -8,6 +8,7 @@ app = Flask(__name__)
 
 # Blog posts directory
 POSTS_DIR = os.path.join(os.path.dirname(__file__), 'content', 'posts')
+# Force redeploy to ensure new blog post appears
 
 def get_posts():
     """Read all markdown files from the posts directory and provide a clean summary for each post."""
