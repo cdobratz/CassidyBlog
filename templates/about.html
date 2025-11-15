@@ -5,107 +5,144 @@
     <title>About | Cassidy Dobratz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
 </head>
-<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
-    <header class="bg-slate-800 shadow-lg">
-        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
-            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
-            <nav class="flex gap-6 text-slate-200">
-                <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
-                <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
-                <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
-            </nav>
-        </div>
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <a href="{{ url_for('index') }}" class="site-logo">Cassidy Dobratz</a>
+        <nav class="site-nav">
+            <a href="{{ url_for('about') }}" class="link-underline">About</a>
+            <a href="{{ url_for('projects') }}" class="link-underline">Projects</a>
+            <a href="{{ url_for('blog') }}" class="link-underline">Blog</a>
+        </nav>
     </header>
-    <main class="max-w-3xl mx-auto px-4 py-12">
-        <section class="bg-slate-800 rounded-2xl shadow-xl p-8">
-            <div class="flex flex-col items-center">
-                <h1 class="text-3xl font-bold text-emerald-300 mb-2">About</h1>
-                <p class="text-slate-300 text-center mb-4">Data Analytics Engineer | Machine Learning Engineer | Cloud Engineer</p>
+
+    <main>
+        <div class="about-content">
+            <div class="about-header animate-fade-up">
+                <h1 class="about-title">About</h1>
+                <p class="about-subtitle">Data Analytics Engineer · Machine Learning Engineer · Cloud Architect</p>
             </div>
-            <div class="text-slate-200 max-w-none mt-6 space-y-6 leading-relaxed">
-                <p>
-                    My technical toolkit includes modern frameworks like FastAPI and Axum, containerization with Docker, and cloud deployment strategies across AWS Lambda, Render, and DigitalOcean. 
-                    I excel at transforming complex data challenges into production-ready applications, having developed everything from NFL sentiment analyzers with MongoDB Atlas integration to AI-powered recipe parsing services using transformer models. 
-                </p>
-                <p>
-                    Healthcare experience has strengthened my ability to balance technical precision with human-centered design, ensuring solutions are both analytically sound and practically implementable. 
-                    I specialize in data pipeline construction, ETL/ELT processes, and building robust APIs that serve real-time analytics and machine learning insights.
-                </p>
-                <p>
-                    My approach combines rigorous data science methodologies with modern software engineering practices, including MLOps, containerized deployments, and comprehensive documentation standards.
-                    Whether developing sentiment analysis tools, building microservices for recipe intelligence, or creating scalable game schedule APIs, I focus on delivering maintainable, well-documented solutions that drive business value through data-driven insights and automated workflows.
-                </p>
-            </div>
-            
-            <!-- Skills Section -->
-            <div class="mt-8 p-6 bg-slate-700/50 rounded-xl border border-slate-600">
-                <h2 class="text-2xl font-semibold mb-6 text-emerald-400">Technical Skills</h2>
-                <div class="grid md:grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                        <div>
-                            <h3 class="text-emerald-300 font-semibold mb-3">Languages & Frameworks</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Python</span>
-                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">JavaScript</span>
-                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Rust</span>
-                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">TypeScript</span>
-                                <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">SQL</span>
-                                <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">FastAPI</span>
-                                <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">Flask</span>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h3 class="text-emerald-300 font-semibold mb-3">Cloud & DevOps</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">AWS Lambda</span>
-                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">DigitalOcean</span>
-                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">Docker</span>
-                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">Terraform</span>
-                                <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">GitHub Actions</span>
-                            </div>
+
+            <div class="about-body">
+                <div class="about-text">
+                    <p class="animate-fade-up delay-1">
+                        My technical toolkit spans modern frameworks like FastAPI and Axum, containerization with Docker, and cloud deployment strategies across AWS Lambda, Render, and DigitalOcean. I excel at transforming complex data challenges into production-ready applications.
+                    </p>
+                    <p class="animate-fade-up delay-2">
+                        From NFL sentiment analyzers with MongoDB Atlas integration to AI-powered recipe parsing services using transformer models—I build systems that balance analytical rigor with practical implementation. Healthcare experience has strengthened my ability to merge technical precision with human-centered design.
+                    </p>
+                    <p class="animate-fade-up delay-3">
+                        I specialize in data pipeline construction, ETL/ELT processes, and building robust APIs that serve real-time analytics and machine learning insights. My approach combines rigorous data science methodologies with modern software engineering practices, including MLOps, containerized deployments, and comprehensive documentation standards.
+                    </p>
+                    <p class="animate-fade-up delay-4">
+                        Whether developing sentiment analysis tools, building microservices for recipe intelligence, or creating scalable game schedule APIs, I focus on delivering maintainable, well-documented solutions that drive business value through data-driven insights and automated workflows.
+                    </p>
+                </div>
+
+                <div class="skills-section animate-fade-up delay-3">
+                    <h2 class="skills-title">Technical Stack</h2>
+
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">Languages</h3>
+                        <div class="skill-list">
+                            <span class="tag">Python</span>
+                            <span class="tag">Rust</span>
+                            <span class="tag">TypeScript</span>
+                            <span class="tag">SQL</span>
                         </div>
                     </div>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <h3 class="text-emerald-300 font-semibold mb-3">Data & AI</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">MongoDB Atlas</span>
-                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">HuggingFace</span>
-                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">Sentiment Analysis</span>
-                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">OpenRouter API</span>
-                                <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">MLOps</span>
-                            </div>
+
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">Frameworks</h3>
+                        <div class="skill-list">
+                            <span class="tag">FastAPI</span>
+                            <span class="tag">Flask</span>
+                            <span class="tag">Axum</span>
                         </div>
-                        
-                        <div>
-                            <h3 class="text-emerald-300 font-semibold mb-3">Architecture & APIs</h3>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">RESTful APIs</span>
-                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">Microservices</span>
-                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">Real-time Processing</span>
-                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">Scalable Systems</span>
-                                <span class="bg-blue-900/60 px-3 py-1 rounded-full text-xs text-blue-200">CORS & Security</span>
-                            </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">Cloud & DevOps</h3>
+                        <div class="skill-list">
+                            <span class="tag">AWS Lambda</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">Terraform</span>
+                            <span class="tag">GitHub Actions</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">Data & AI</h3>
+                        <div class="skill-list">
+                            <span class="tag tag-accent">MongoDB Atlas</span>
+                            <span class="tag tag-accent">HuggingFace</span>
+                            <span class="tag tag-accent">MLOps</span>
+                            <span class="tag">OpenRouter API</span>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h3 class="skill-category-title">Architecture</h3>
+                        <div class="skill-list">
+                            <span class="tag">Microservices</span>
+                            <span class="tag">RESTful APIs</span>
+                            <span class="tag">Real-time Systems</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
     </main>
-    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
-        <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
     </footer>
+
+    <!-- Custom cursor script -->
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+
+            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
+            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        const interactives = document.querySelectorAll('a, button, .btn');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.width = '60px';
+                follower.style.height = '60px';
+                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+            });
+        });
+    </script>
 </body>
 </html>

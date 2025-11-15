@@ -3,133 +3,167 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cassidy Dobratz</title>
+    <title>Cassidy Dobratz — Data & ML Engineer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        .animate-fade-in-up { animation: fadeInUp .8s cubic-bezier(.4,0,.2,1) forwards; }
-        @keyframes pulse-border { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,.7); } 50% { box-shadow: 0 0 0 8px rgba(34,197,94,.05); } }
-        .animate-pulse-border { animation: pulse-border 2s infinite; }
-        body { font-family: 'Inter', sans-serif; }
-    </style>
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
 </head>
-<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
 
-  <!-- Header -->
-  <header class="bg-slate-800 shadow-lg">
-    <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
-      <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
-      <nav class="flex gap-6 text-slate-200">
-        <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
-        <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
-        <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
-      </nav>
-    </div>
-  </header>
+    <!-- Header -->
+    <header class="site-header">
+        <a href="{{ url_for('index') }}" class="site-logo">Cassidy Dobratz</a>
+        <nav class="site-nav">
+            <a href="{{ url_for('about') }}" class="link-underline">About</a>
+            <a href="{{ url_for('projects') }}" class="link-underline">Projects</a>
+            <a href="{{ url_for('blog') }}" class="link-underline">Blog</a>
+        </nav>
+    </header>
 
-  <!-- Hero -->
-  <section class="max-w-5xl mx-auto px-4 pt-16 pb-10 flex flex-col items-center">
-    <p class="text-lg text-slate-300 max-w-2xl text-center animate-fade-in-up delay-150">
-      Transforming data into actionable insights through advanced analytics and intelligent automation. I specialize in building <span class="text-emerald-400 font-semibold">scalable ML pipelines</span>, <span class="text-emerald-400 font-semibold">cloud-native applications</span>, and <span class="text-emerald-400 font-semibold">real-time data processing systems</span> using modern technologies like Python, Rust, and cloud platforms.
-      <br><br>
-      My expertise spans from <span class="text-emerald-400 font-semibold">FastAPI microservices</span> and <span class="text-emerald-400 font-semibold">Docker containerization</span> to <span class="text-emerald-400 font-semibold">AI-powered analytics</span> and <span class="text-emerald-400 font-semibold">MongoDB data solutions</span>. I build production-ready systems that leverage machine learning for sentiment analysis, recipe intelligence, and sports analytics while maintaining robust MLOps practices and scalable architecture patterns.
-    </p>
-    <div class="flex gap-4 mt-6 animate-fade-in-up delay-300">
-        <a href="{{ url_for('projects') }}" class="px-6 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-semibold shadow-lg transition" aria-label="View Projects">View Projects</a>
-        <a href="{{ url_for('blog') }}" class="px-6 py-2 rounded-lg border border-emerald-400 hover:bg-emerald-600 hover:text-white font-semibold transition" aria-label="Read Articles">Read Articles</a>
-        <a href="{{ url_for('about') }}" class="px-6 py-2 rounded-lg border border-emerald-400 hover:bg-emerald-600 hover:text-white font-semibold transition" aria-label="About Me">About Me</a>
-    </div>
-  </section>
+    <main>
+        <!-- Hero Section - Asymmetric Editorial Layout -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1 class="hero-title animate-fade-up">
+                    Data<br>
+                    <span class="accent">Intelligence</span><br>
+                    Architect
+                </h1>
+                <p class="hero-subtitle animate-fade-up delay-2">
+                    Transforming complexity into clarity through ML pipelines & cloud-native systems
+                </p>
+                <p class="hero-description animate-fade-up delay-3">
+                    I specialize in building scalable machine learning infrastructure, real-time data processing systems, and intelligent automation using Python, Rust, and modern cloud platforms. From sentiment analysis engines to AI-powered recipe intelligence—I craft production-ready solutions that drive measurable impact.
+                </p>
+                <div class="animate-fade-up delay-4" style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <a href="{{ url_for('projects') }}" class="btn btn-primary">View Work</a>
+                    <a href="{{ url_for('about') }}" class="btn">About Me</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-badge">Available for Projects</div>
+            </div>
+        </section>
 
-  <!-- Projects -->
-  <section id="projects" class="max-w-6xl mx-auto px-4 py-12">
-    <h2 class="text-3xl font-semibold mb-8 text-emerald-400 tracking-tight animate-fade-in-up">Highlighted Projects</h2>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-      <!-- Project cards -->
-      <a href="https://github.com/cdobratz/RecipeApp_AI" target="_blank" rel="noopener" aria-label="RecipeApp_AI repository"
-         class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 animate-fade-in-up" style="animation-delay:.10s;">
-        <div class="h-40 bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M4 4h16v2H4z"></path><path d="M7 11h10"></path><path d="M7 16h10"></path><path d="M8 4v16"></path>
-          </svg>
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2 text-emerald-300 flex items-center gap-2">
-            RecipeApp&nbsp;AI
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 stroke-current text-emerald-300" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-          </h3>
-          <p class="text-slate-300 mb-4">Conversational recipe recommendation engine using GPT-powered natural-language search and nutrition constraints.</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Python</span>
-            <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">FastAPI</span>
-            <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">OpenRouter</span>
-          </div>
-        </div>
-      </a>
-      <a href="https://github.com/cdobratz/NFL-Sentiment-Analyzer" target="_blank" rel="noopener" aria-label="NFL Sentiment Analyzer repository"
-         class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 animate-fade-in-up" style="animation-delay:.18s;">
-        <div class="h-40 bg-gradient-to-r from-teal-400 to-emerald-400 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M3 5h18l-2 14H5L3 5z"></path><circle cx="12" cy="12" r="3"></circle>
-          </svg>
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2 text-emerald-300 flex items-center gap-2">
-            NFL Sentiment Analyzer
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 stroke-current text-emerald-300" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-          </h3>
-          <p class="text-slate-300 mb-4">Real-time Twitter sentiment tracking for teams &amp; players with visual dashboards and predictive mood shifts.</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">NLP</span>
-            <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Streamlit</span>
-          </div>
-        </div>
-      </a>
-      <a href="https://gitlab.com/cdobratz/mcp-server" target="_blank" rel="noopener" aria-label="MCP Server repository"
-         class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300 animate-fade-in-up" style="animation-delay:.26s;">
-        <div class="h-40 bg-gradient-to-r from-cyan-400 to-emerald-400 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-            <rect x="3" y="4" width="18" height="4" rx="1"></rect><rect x="3" y="10" width="18" height="4" rx="1"></rect><rect x="3" y="16" width="18" height="4" rx="1"></rect>
-          </svg>
-        </div>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold mb-2 text-emerald-300 flex items-center gap-2">
-            MCP&nbsp;Server
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 stroke-current text-emerald-300" fill="none" viewBox="0 0 24 24" stroke-width="2" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-          </h3>
-          <p class="text-slate-300 mb-4">High-throughput WebSocket server supporting multiplayer coordination protocol for real-time gaming.</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-300">Python</span>
-            <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">WebSocket</span>
-          </div>
-        </div>
-      </a>
-    </div>
-  </section>
+        <!-- Projects Section -->
+        <section id="projects">
+            <div class="section-header animate-slide-left">
+                <span class="section-number">01.</span>
+                <h2 class="section-title">Selected Work</h2>
+            </div>
 
-  <!-- Articles -->
-  <section id="articles" class="max-w-4xl mx-auto px-4 py-12">
-    <h2 class="text-3xl font-semibold mb-8 text-emerald-400 tracking-tight animate-fade-in-up">Latest Articles</h2>
-    <div class="space-y-6">
-      {% for post in posts %}
-      <a href="{{ url_for('post', slug=post.slug) }}" class="block bg-slate-800 rounded-2xl shadow-xl p-6 hover:bg-slate-700 transition">
-        <h3 class="text-2xl font-semibold text-emerald-300 mb-2">{{ post.title }}</h3>
-        <p class="text-slate-300">{{ post.summary }}</p>
-      </a>
-      {% else %}
-      <p class="text-slate-400">No articles yet. Check back soon!</p>
-      {% endfor %}
-    </div>
-  </section>
+            <div class="projects-container">
+                <a href="https://github.com/cdobratz/RecipeApp_AI" target="_blank" rel="noopener" class="project-card animate-fade-up delay-1">
+                    <div class="project-number">01</div>
+                    <h3 class="project-title">RecipeApp AI</h3>
+                    <p class="project-description">
+                        Conversational recipe recommendation engine leveraging GPT-powered natural language search with nutrition constraints. Features real-time ingredient parsing and intelligent recipe matching through transformer models.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-accent">Python</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">OpenRouter</span>
+                        <span class="tag">Docker</span>
+                    </div>
+                </a>
 
-  <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
-    <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
-  </footer>
+                <a href="https://github.com/cdobratz/NFL-Sentiment-Analyzer" target="_blank" rel="noopener" class="project-card animate-fade-up delay-2">
+                    <div class="project-number">02</div>
+                    <h3 class="project-title">NFL Sentiment Analyzer</h3>
+                    <p class="project-description">
+                        Real-time sentiment analysis platform for NFL discourse. Tracks public sentiment around games, teams, and players with visual dashboards and predictive mood modeling using HuggingFace transformers.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-accent">NLP</span>
+                        <span class="tag">Transformers</span>
+                        <span class="tag">X API</span>
+                        <span class="tag">Streamlit</span>
+                    </div>
+                </a>
+
+                <a href="https://gitlab.com/cdobratz/mcp-server" target="_blank" rel="noopener" class="project-card animate-fade-up delay-3">
+                    <div class="project-number">03</div>
+                    <h3 class="project-title">MCP Server</h3>
+                    <p class="project-description">
+                        High-performance FastAPI server for document intelligence. Processes CSV files and documents (PDF, Word) with dedicated agents for data analysis and content extraction pipelines.
+                    </p>
+                    <div class="project-tags">
+                        <span class="tag tag-accent">Python</span>
+                        <span class="tag">FastAPI</span>
+                        <span class="tag">Document AI</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- Articles Section -->
+        <section id="articles">
+            <div class="section-header animate-slide-left">
+                <span class="section-number">02.</span>
+                <h2 class="section-title">Writing</h2>
+            </div>
+
+            <div class="articles-list">
+                {% for post in posts %}
+                <a href="{{ url_for('post', slug=post.slug) }}" class="article-item">
+                    <span class="article-number">{{ '%02d' % loop.index }}.</span>
+                    <span class="article-title">{{ post.title }}</span>
+                    <span class="article-arrow">→</span>
+                </a>
+                {% else %}
+                <p style="color: var(--text-muted); font-style: italic;">New articles coming soon. Check back for insights on ML engineering, data pipelines, and cloud architecture.</p>
+                {% endfor %}
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
+    </footer>
+
+    <!-- Custom cursor script -->
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            // Smooth cursor follow
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+
+            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
+            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Expand cursor on interactive elements
+        const interactives = document.querySelectorAll('a, button, .btn');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.width = '60px';
+                follower.style.height = '60px';
+                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+            });
+        });
+    </script>
 </body>
 </html>

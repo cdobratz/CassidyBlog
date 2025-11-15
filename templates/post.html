@@ -5,40 +5,83 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ post.title }} | Cassidy Dobratz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
 </head>
-<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
-    <header class="bg-slate-800 shadow-lg">
-        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
-            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
-            <nav class="flex gap-6 text-slate-200">
-                <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
-                <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
-                <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
-            </nav>
-        </div>
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <a href="{{ url_for('index') }}" class="site-logo">Cassidy Dobratz</a>
+        <nav class="site-nav">
+            <a href="{{ url_for('about') }}" class="link-underline">About</a>
+            <a href="{{ url_for('projects') }}" class="link-underline">Projects</a>
+            <a href="{{ url_for('blog') }}" class="link-underline">Blog</a>
+        </nav>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 py-12">
-        <article class="bg-slate-800 rounded-2xl shadow-xl p-8 md:p-12">
-            <header class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-emerald-300 mb-4">{{ post.title }}</h1>
+    <main>
+        <article class="blog-post">
+            <header class="post-header animate-fade-up">
+                <h1 class="post-title">{{ post.title }}</h1>
+                <div class="post-meta">Article</div>
             </header>
-            <div class="blog-content prose prose-invert prose-lg text-slate-200 max-w-none">
+
+            <div class="post-content animate-fade-up delay-2">
                 {{ html_content|safe }}
             </div>
-            <footer class="mt-8 pt-6 border-t border-slate-700 text-center">
-                <a href="{{ url_for('blog') }}" class="px-6 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-semibold shadow-lg transition">← Back to Blog</a>
+
+            <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
+                <a href="{{ url_for('blog') }}" class="btn">← Back to Articles</a>
             </footer>
         </article>
     </main>
 
-    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
-        <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
+    <footer class="site-footer">
+        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
     </footer>
+
+    <!-- Custom cursor script -->
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+
+            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
+            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        const interactives = document.querySelectorAll('a, button, .btn');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.width = '60px';
+                follower.style.height = '60px';
+                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+            });
+        });
+    </script>
 </body>
 </html>

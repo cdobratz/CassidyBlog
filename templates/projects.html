@@ -5,87 +5,118 @@
     <title>Projects | Cassidy Dobratz</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link rel="apple-touch-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
 </head>
-<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
-    <header class="bg-slate-800 shadow-lg">
-        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
-            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
-            <nav class="flex gap-6 text-slate-200">
-                <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
-                <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
-                <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
-            </nav>
-        </div>
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <a href="{{ url_for('index') }}" class="site-logo">Cassidy Dobratz</a>
+        <nav class="site-nav">
+            <a href="{{ url_for('about') }}" class="link-underline">About</a>
+            <a href="{{ url_for('projects') }}" class="link-underline">Projects</a>
+            <a href="{{ url_for('blog') }}" class="link-underline">Blog</a>
+        </nav>
     </header>
-    <main class="max-w-6xl mx-auto px-4 py-12">
-        <h2 class="text-3xl font-semibold mb-8 text-emerald-400 tracking-tight">Highlighted Projects</h2>
-        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            <!-- Example Project Card -->
-            <a href="https://github.com/cdobratz/RecipeApp_AI" target="_blank" class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300">
-                <div class="h-40 bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M4 4h16v2H4z"></path><path d="M7 11h10"></path><path d="M7 16h10"></path><path d="M8 4v16"></path>
-                    </svg>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-emerald-300 flex items-center gap-2">
-                        RecipeApp AI
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 stroke-current text-emerald-300" fill="none" viewBox="0 0 24 24" stroke-width="2">
-                            <path d="M9 18l6-6-6-6"/>
-                        </svg>
-                    </h3>
-                    <p class="text-slate-300 mb-4">Conversational recipe recommendation engine using <span class="text-emerald-400 font-semibold">GPT-powered natural-language search</span> and nutrition constraints. Features real-time ingredient parsing and intelligent recipe matching.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Python</span>
-                        <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">FastAPI</span>
-                        <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">OpenRouter</span>
-                        <span class="bg-purple-900/60 px-3 py-1 rounded-full text-xs text-purple-200">Docker</span>
-                    </div>
+
+    <main>
+        <div class="section-header animate-slide-left">
+            <span class="section-number">01.</span>
+            <h2 class="section-title">All Projects</h2>
+        </div>
+
+        <div class="projects-container">
+            <a href="https://github.com/cdobratz/RecipeApp_AI" target="_blank" rel="noopener" class="project-card animate-fade-up delay-1">
+                <div class="project-number">01</div>
+                <h3 class="project-title">RecipeApp AI</h3>
+                <p class="project-description">
+                    Conversational recipe recommendation engine leveraging GPT-powered natural language search with nutrition constraints. Features real-time ingredient parsing and intelligent recipe matching through transformer models. Built with modern MLOps practices and scalable architecture patterns.
+                </p>
+                <div class="project-tags">
+                    <span class="tag tag-accent">Python</span>
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">OpenRouter</span>
+                    <span class="tag">Docker</span>
                 </div>
             </a>
-            <!-- Second Project cards here, following the same structure -->
-            <a href="https://github.com/cdobratz/NFL-Sentiment-Analyzer" target="_blank" class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300">
-                <div class="h-40 bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M4 4h16v2H4z"></path><path d="M7 11h10"></path><path d="M7 16h10"></path><path d="M8 4v16"></path>
-                    </svg>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-emerald-300">NFL Sentiment Analyzer</h3>
-                    <p class="text-slate-300 mb-4">A real-time sentiment analysis tool for NFL games that helps fans and analysts understand the public sentiment around games, teams, and players. Built with modern MLOps practices and scalable architecture.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Huggingface Transformers</span>
-                        <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">Python/FastAPI</span>
-                        <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">X API</span>
-                        <span class="bg-cyan-900/60 px-3 py-1 rounded-full text-xs text-cyan-200">Docker</span>
-                    </div>
+
+            <a href="https://github.com/cdobratz/NFL-Sentiment-Analyzer" target="_blank" rel="noopener" class="project-card animate-fade-up delay-2">
+                <div class="project-number">02</div>
+                <h3 class="project-title">NFL Sentiment Analyzer</h3>
+                <p class="project-description">
+                    Real-time sentiment analysis platform for NFL discourse. Tracks public sentiment around games, teams, and players with visual dashboards and predictive mood modeling. Built with HuggingFace transformers, MongoDB Atlas integration, and modern MLOps practices for scalable, production-ready analysis.
+                </p>
+                <div class="project-tags">
+                    <span class="tag tag-accent">NLP</span>
+                    <span class="tag">HuggingFace</span>
+                    <span class="tag">X API</span>
+                    <span class="tag">Docker</span>
+                    <span class="tag">Streamlit</span>
                 </div>
             </a>
-            <!-- Third Project cards here, following the same structure -->
-            <a href="https://gitlab.com/cdobratz/mcp-server" target="_blank" class="bg-slate-800 rounded-2xl shadow-xl overflow-hidden transform hover:-translate-y-2 hover:scale-105 transition-all duration-300">
-                <div class="h-40 bg-gradient-to-r from-emerald-400 to-cyan-400 flex items-center justify-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M4 4h16v2H4z"></path><path d="M7 11h10"></path><path d="M7 16h10"></path><path d="M8 4v16"></path>
-                    </svg>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-semibold mb-2 text-emerald-300">MCP Server</h3>
-                    <p class="text-slate-300 mb-4">This is a FastAPI-based server that provides APIs for processing CSV files and documents (PDF, Word). It includes agents for CSV data analysis and document content extraction.</p>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="bg-emerald-900/60 px-3 py-1 rounded-full text-xs text-emerald-200">Python</span>
-                        <span class="bg-teal-900/60 px-3 py-1 rounded-full text-xs text-teal-200">FastAPI</span>
-                    </div>
+
+            <a href="https://gitlab.com/cdobratz/mcp-server" target="_blank" rel="noopener" class="project-card animate-fade-up delay-3">
+                <div class="project-number">03</div>
+                <h3 class="project-title">MCP Server</h3>
+                <p class="project-description">
+                    High-performance FastAPI server for document intelligence. Processes CSV files and documents (PDF, Word) with dedicated agents for data analysis and content extraction. Features intelligent parsing pipelines and structured data output for downstream ML applications.
+                </p>
+                <div class="project-tags">
+                    <span class="tag tag-accent">Python</span>
+                    <span class="tag">FastAPI</span>
+                    <span class="tag">Document AI</span>
+                    <span class="tag">Data Extraction</span>
                 </div>
             </a>
         </div>
     </main>
-    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
-        <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
+
+    <footer class="site-footer">
+        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
     </footer>
+
+    <!-- Custom cursor script -->
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+
+            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
+            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        const interactives = document.querySelectorAll('a, button, .btn');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.width = '60px';
+                follower.style.height = '60px';
+                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+            });
+        });
+    </script>
 </body>
 </html>
