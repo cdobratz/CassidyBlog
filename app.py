@@ -71,7 +71,15 @@ def blog():
 def post(slug):
     post = get_post_by_slug(slug)
     if post:
-        html_content = markdown.markdown(post['content'])
+        # Remove the first line (title) from markdown content to avoid duplication
+        content_lines = post['content'].split('\n')
+        # Skip the first line if it's a heading (starts with #)
+        if content_lines and content_lines[0].startswith('#'):
+            content_without_title = '\n'.join(content_lines[1:])
+        else:
+            content_without_title = post['content']
+        
+        html_content = markdown.markdown(content_without_title)
         return render_template('post.html', post=post, html_content=html_content)
     else:
         return "Post not found", 404
