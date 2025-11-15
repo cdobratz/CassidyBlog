@@ -3,45 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Post | Cassidy Dobratz</title>
+    <title>New Article | Cassidy Dobratz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+    <style>
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-cream);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--accent-vermillion);
+        }
+        .form-textarea {
+            min-height: 400px;
+            resize: vertical;
+            line-height: 1.7;
+        }
+        .form-label {
+            display: block;
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .form-group {
+            margin-bottom: 2rem;
+        }
+    </style>
 </head>
-<body class="bg-gradient-to-tr from-slate-900 to-slate-800 min-h-screen text-slate-100">
-    <header class="bg-slate-800 shadow-lg">
-        <div class="max-w-5xl mx-auto px-4 py-6 flex flex-col items-center">
-            <a href="{{ url_for('index') }}" class="text-3xl font-bold text-emerald-400 mb-2">Cassidy Dobratz</a>
-            <nav class="flex gap-6 text-slate-200">
-                <a href="{{ url_for('about') }}" class="hover:text-emerald-400 transition">About</a>
-                <a href="{{ url_for('projects') }}" class="hover:text-emerald-400 transition">Projects</a>
-                <a href="{{ url_for('blog') }}" class="hover:text-emerald-400 transition">Blog</a>
-            </nav>
-        </div>
+<body>
+    <!-- Custom cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Header -->
+    <header class="site-header">
+        <a href="{{ url_for('index') }}" class="site-logo">Cassidy Dobratz</a>
+        <nav class="site-nav">
+            <a href="{{ url_for('about') }}" class="link-underline">About</a>
+            <a href="{{ url_for('projects') }}" class="link-underline">Projects</a>
+            <a href="{{ url_for('blog') }}" class="link-underline">Blog</a>
+        </nav>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 py-12">
-        <section class="bg-slate-800 rounded-2xl shadow-xl p-8">
-            <h2 class="text-3xl font-semibold mb-8 text-emerald-400 tracking-tight">New Blog Post</h2>
-            <form method="POST" class="space-y-6">
-                <div>
-                    <label for="title" class="block text-emerald-300 font-medium mb-2">Title</label>
-                    <input type="text" id="title" name="title" required class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 focus:ring-emerald-400 focus:border-emerald-400">
+    <main>
+        <div style="max-width: 800px; margin: 0 auto;">
+            <div class="section-header animate-slide-left">
+                <span class="section-number">01.</span>
+                <h2 class="section-title">New Article</h2>
+            </div>
+
+            <form method="POST" class="animate-fade-up delay-2">
+                <div class="form-group">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="title" required class="form-input" placeholder="Article title...">
                 </div>
-                <div>
-                    <label for="content" class="block text-emerald-300 font-medium mb-2">Content (Markdown supported)</label>
-                    <textarea id="content" name="content" rows="12" required class="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-slate-100 focus:ring-emerald-400 focus:border-emerald-400 resize-vertical"></textarea>
+                <div class="form-group">
+                    <label for="content" class="form-label">Content <span style="font-weight: 400; color: var(--text-muted);">(Markdown supported)</span></label>
+                    <textarea id="content" name="content" required class="form-input form-textarea" placeholder="Write your article in Markdown..."></textarea>
                 </div>
-                <div class="flex gap-4 justify-center">
-                    <button type="submit" class="px-6 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-900 font-semibold shadow-lg transition">Publish Post</button>
-                    <a href="{{ url_for('blog') }}" class="px-6 py-2 rounded-lg border border-emerald-400 hover:bg-emerald-600 hover:text-white font-semibold transition">Cancel</a>
+                <div style="display: flex; gap: 1rem; justify-content: flex-start;">
+                    <button type="submit" class="btn btn-primary">Publish Article</button>
+                    <a href="{{ url_for('blog') }}" class="btn">Cancel</a>
                 </div>
             </form>
-        </section>
+        </div>
     </main>
 
-    <footer class="max-w-5xl mx-auto px-4 py-8 text-center text-slate-400">
-        <p>&copy; 2025 Cassidy Dobratz. All rights reserved.</p>
+    <footer class="site-footer">
+        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
     </footer>
+
+    <!-- Custom cursor script -->
+    <script>
+        const cursor = document.querySelector('.cursor');
+        const follower = document.querySelector('.cursor-follower');
+
+        let mouseX = 0, mouseY = 0;
+        let cursorX = 0, cursorY = 0;
+        let followerX = 0, followerY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function animate() {
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            followerX += (mouseX - followerX) * 0.1;
+            followerY += (mouseY - followerY) * 0.1;
+
+            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
+            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        const interactives = document.querySelectorAll('a, button, .btn, input, textarea');
+        interactives.forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                follower.style.width = '60px';
+                follower.style.height = '60px';
+                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
+            });
+            el.addEventListener('mouseleave', () => {
+                follower.style.width = '40px';
+                follower.style.height = '40px';
+            });
+        });
+    </script>
 </body>
 </html>
