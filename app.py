@@ -168,7 +168,7 @@ def post(slug):
         else:
             content_without_title = post['content']
         
-        html_content = markdown.markdown(content_without_title)
+        html_content = markdown.markdown(content_without_title, extensions=['fenced_code'])
         return render_template('post.html', post=post, html_content=html_content)
     else:
         return "Post not found", 404
