@@ -52,25 +52,31 @@
                         <h3 class="skill-category-title">Languages</h3>
                         <div class="skill-list">
                             <span class="tag">Python</span>
-                            <span class="tag">Rust</span>
+                            <span class="tag">Go</span>
+                            <span class="tag">JavaScript</span>
                             <span class="tag">TypeScript</span>
                             <span class="tag">SQL</span>
                         </div>
                     </div>
 
                     <div class="skill-category">
-                        <h3 class="skill-category-title">Frameworks</h3>
+                        <h3 class="skill-category-title">Databases & Frameworks</h3>
                         <div class="skill-list">
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">Redis</span>
+                            <span class="tag">BigQuery</span>
                             <span class="tag">FastAPI</span>
                             <span class="tag">Flask</span>
-                            <span class="tag">Axum</span>
+                            <span class="tag">Node.js</span>
                         </div>
                     </div>
 
                     <div class="skill-category">
                         <h3 class="skill-category-title">Cloud & DevOps</h3>
                         <div class="skill-list">
-                            <span class="tag">AWS Lambda</span>
+                            <span class="tag">AWS</span>
+                            <span class="tag">Azure</span>
                             <span class="tag">Docker</span>
                             <span class="tag">Terraform</span>
                             <span class="tag">GitHub Actions</span>
@@ -78,12 +84,12 @@
                     </div>
 
                     <div class="skill-category">
-                        <h3 class="skill-category-title">Data & AI</h3>
+                        <h3 class="skill-category-title">AI</h3>
                         <div class="skill-list">
-                            <span class="tag tag-accent">MongoDB Atlas</span>
                             <span class="tag tag-accent">HuggingFace</span>
                             <span class="tag tag-accent">MLOps</span>
                             <span class="tag">OpenRouter API</span>
+                            <span class="tag">Transformer Models</span>
                         </div>
                     </div>
 
@@ -101,48 +107,9 @@
     </main>
 
     <footer class="site-footer">
-        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
+        <p>&copy; 2026 Cassidy Dobratz. Crafted with intention.</p>
     </footer>
 
-    <!-- Custom cursor script -->
-    <script>
-        const cursor = document.querySelector('.cursor');
-        const follower = document.querySelector('.cursor-follower');
-
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animate() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
-
-            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
-            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
-
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        const interactives = document.querySelectorAll('a, button, .btn');
-        interactives.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                follower.style.width = '60px';
-                follower.style.height = '60px';
-                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
-            });
-            el.addEventListener('mouseleave', () => {
-                follower.style.width = '40px';
-                follower.style.height = '40px';
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/cursor.js') }}"></script>
 </body>
 </html>

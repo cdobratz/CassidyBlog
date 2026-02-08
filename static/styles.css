@@ -745,3 +745,39 @@ main {
         display: none;
     }
 }
+
+/* Form styles (new post editor) */
+.form-input {
+    width: 100%;
+    padding: 1rem;
+    background: var(--bg-cream);
+    border: 1px solid var(--border-light);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--accent-vermillion);
+}
+
+.form-textarea {
+    min-height: 400px;
+    resize: vertical;
+    line-height: 1.7;
+}
+
+.form-label {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+}
+
+.form-group {
+    margin-bottom: 2rem;
+}

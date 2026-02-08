@@ -1,10 +1,100 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, Response
 import markdown
 import os
+import secrets
 from datetime import datetime
 import glob
+from functools import wraps
+from flask_talisman import Talisman
+from flask_wtf.csrf import CSRFProtect
+import bleach
 
 app = Flask(__name__)
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
+
+# Security headers via Talisman
+csp = {
+    'default-src': "'self'",
+    'script-src': "'self'",
+    'style-src': "'self' 'unsafe-inline' https://fonts.googleapis.com",
+    'font-src': "'self' https://fonts.gstatic.com",
+    'img-src': "'self' data:",
+    'connect-src': "'self'",
+    'frame-ancestors': "'none'",
+    'base-uri': "'self'",
+    'form-action': "'self'",
+}
+
+Talisman(
+    app,
+    force_https=False,
+    strict_transport_security=True,
+    strict_transport_security_max_age=31536000,
+    strict_transport_security_include_subdomains=True,
+    content_security_policy=csp,
+    referrer_policy='strict-origin-when-cross-origin',
+    permissions_policy={
+        'geolocation': '()',
+        'microphone': '()',
+        'camera': '()',
+        'payment': '()',
+    },
+)
+
+# CSRF protection
+csrf = CSRFProtect(app)
+
+# Bleach allowlist for sanitizing rendered markdown
+ALLOWED_TAGS = [
+    'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+    'p', 'br', 'hr',
+    'strong', 'em', 'b', 'i', 'u', 's', 'del',
+    'pre', 'code',
+    'ul', 'ol', 'li',
+    'blockquote',
+    'a',
+    'table', 'thead', 'tbody', 'tr', 'th', 'td',
+    'img',
+    'sup', 'sub',
+    'div', 'span',
+]
+
+ALLOWED_ATTRIBUTES = {
+    'a': ['href', 'title', 'rel'],
+    'img': ['src', 'alt', 'title'],
+    'code': ['class'],
+    'pre': ['class'],
+    'div': ['class'],
+    'span': ['class'],
+    'td': ['align'],
+    'th': ['align'],
+}
+
+# HTTP Basic Auth for protected routes
+def check_auth(username, password):
+    admin_user = os.environ.get('ADMIN_USER', 'admin')
+    admin_pass = os.environ.get('ADMIN_PASSWORD')
+    if not admin_pass:
+        return False
+    return username == admin_user and password == admin_pass
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return Response(
+                'Authentication required.', 401,
+                {'WWW-Authenticate': 'Basic realm="Login Required"'}
+            )
+        return f(*args, **kwargs)
+    return decorated
+
+@app.after_request
+def set_extra_security_headers(response):
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains'
+    response.headers['X-XSS-Protection'] = '1; mode=block'
+    return response
 
 # Blog posts directory
 POSTS_DIR = os.path.join(os.path.dirname(__file__), 'content', 'posts')
@@ -80,11 +170,18 @@ def post(slug):
             content_without_title = post['content']
         
         html_content = markdown.markdown(content_without_title)
+        html_content = bleach.clean(
+            html_content,
+            tags=ALLOWED_TAGS,
+            attributes=ALLOWED_ATTRIBUTES,
+            strip=True,
+        )
         return render_template('post.html', post=post, html_content=html_content)
     else:
         return "Post not found", 404
 
 @app.route('/blog/new', methods=['GET', 'POST'])
+@requires_auth
 def new_post():
     if request.method == 'POST':
         title = request.form['title']

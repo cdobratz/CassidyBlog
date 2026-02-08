@@ -29,22 +29,37 @@
         </div>
 
         <div class="projects-container">
-            <a href="https://github.com/cdobratz/RecipeApp_AI" target="_blank" rel="noopener" class="project-card animate-fade-up delay-1">
+            <a href="https://gitlab.com/cdobratz/mcp-server" target="_blank" rel="noopener" class="project-card animate-fade-up delay-1">
                 <div class="project-number">01</div>
-                <h3 class="project-title">RecipeApp AI</h3>
+                <h3 class="project-title">MCP Server</h3>
                 <p class="project-description">
-                    Conversational recipe recommendation engine leveraging GPT-powered natural language search with nutrition constraints. Features real-time ingredient parsing and intelligent recipe matching through transformer models. Built with modern MLOps practices and scalable architecture patterns.
+                    High-performance FastAPI server for document intelligence. Processes CSV files and documents (PDF, Word) with dedicated agents for data analysis and content extraction. Features intelligent parsing pipelines and structured data output for downstream ML applications.
                 </p>
                 <div class="project-tags">
                     <span class="tag tag-accent">Python</span>
                     <span class="tag">FastAPI</span>
-                    <span class="tag">OpenRouter</span>
-                    <span class="tag">Docker</span>
+                    <span class="tag">Document AI</span>
+                    <span class="tag">Data Extraction</span>
                 </div>
             </a>
 
-            <a href="https://github.com/cdobratz/NFL-Sentiment-Analyzer" target="_blank" rel="noopener" class="project-card animate-fade-up delay-2">
+            <a href="https://github.com/cdobratz/market-intelligence-mvp" target="_blank" rel="noopener" class="project-card animate-fade-up delay-2">
                 <div class="project-number">02</div>
+                <h3 class="project-title">Market Intelligence Platform</h3>
+                <p class="project-description">
+                    End-to-end ML pipeline for financial market analysis and prediction. Automated data ingestion from financial APIs, feature engineering with technical indicators and sentiment analysis, and multiple ML models including XGBoost, LSTM, and ensemble methods. Orchestrated with Apache Airflow and tracked via MLflow.
+                </p>
+                <div class="project-tags">
+                    <span class="tag tag-accent">Python</span>
+                    <span class="tag">Apache Airflow</span>
+                    <span class="tag">Apache Spark</span>
+                    <span class="tag">MLflow</span>
+                    <span class="tag">FastAPI</span>
+                </div>
+            </a>
+
+            <a href="https://github.com/cdobratz/NFL-Sentiment-Analyzer" target="_blank" rel="noopener" class="project-card animate-fade-up delay-3">
+                <div class="project-number">03</div>
                 <h3 class="project-title">NFL Sentiment Analyzer</h3>
                 <p class="project-description">
                     Real-time sentiment analysis platform for NFL discourse. Tracks public sentiment around games, teams, and players with visual dashboards and predictive mood modeling. Built with HuggingFace transformers, MongoDB Atlas integration, and modern MLOps practices for scalable, production-ready analysis.
@@ -58,65 +73,26 @@
                 </div>
             </a>
 
-            <a href="https://gitlab.com/cdobratz/mcp-server" target="_blank" rel="noopener" class="project-card animate-fade-up delay-3">
-                <div class="project-number">03</div>
-                <h3 class="project-title">MCP Server</h3>
+            <a href="https://github.com/cdobratz/RecipeApp_AI" target="_blank" rel="noopener" class="project-card animate-fade-up delay-4">
+                <div class="project-number">04</div>
+                <h3 class="project-title">RecipeApp AI</h3>
                 <p class="project-description">
-                    High-performance FastAPI server for document intelligence. Processes CSV files and documents (PDF, Word) with dedicated agents for data analysis and content extraction. Features intelligent parsing pipelines and structured data output for downstream ML applications.
+                    Conversational recipe recommendation engine leveraging GPT-powered natural language search with nutrition constraints. Features real-time ingredient parsing and intelligent recipe matching through transformer models. Built with modern MLOps practices and scalable architecture patterns.
                 </p>
                 <div class="project-tags">
                     <span class="tag tag-accent">Python</span>
                     <span class="tag">FastAPI</span>
-                    <span class="tag">Document AI</span>
-                    <span class="tag">Data Extraction</span>
+                    <span class="tag">OpenRouter</span>
+                    <span class="tag">Docker</span>
                 </div>
             </a>
         </div>
     </main>
 
     <footer class="site-footer">
-        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
+        <p>&copy; 2026 Cassidy Dobratz. Crafted with intention.</p>
     </footer>
 
-    <!-- Custom cursor script -->
-    <script>
-        const cursor = document.querySelector('.cursor');
-        const follower = document.querySelector('.cursor-follower');
-
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animate() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
-
-            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
-            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
-
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        const interactives = document.querySelectorAll('a, button, .btn');
-        interactives.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                follower.style.width = '60px';
-                follower.style.height = '60px';
-                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
-            });
-            el.addEventListener('mouseleave', () => {
-                follower.style.width = '40px';
-                follower.style.height = '40px';
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/cursor.js') }}"></script>
 </body>
 </html>
