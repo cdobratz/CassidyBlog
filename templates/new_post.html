@@ -6,38 +6,6 @@
     <title>New Article | Cassidy Dobratz</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
-    <style>
-        .form-input {
-            width: 100%;
-            padding: 1rem;
-            background: var(--bg-cream);
-            border: 1px solid var(--border-light);
-            color: var(--text-primary);
-            font-family: var(--font-body);
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: var(--accent-vermillion);
-        }
-        .form-textarea {
-            min-height: 400px;
-            resize: vertical;
-            line-height: 1.7;
-        }
-        .form-label {
-            display: block;
-            font-family: var(--font-display);
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-primary);
-        }
-        .form-group {
-            margin-bottom: 2rem;
-        }
-    </style>
 </head>
 <body>
     <!-- Custom cursor -->
@@ -62,6 +30,7 @@
             </div>
 
             <form method="POST" class="animate-fade-up delay-2">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <div class="form-group">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" id="title" name="title" required class="form-input" placeholder="Article title...">
@@ -79,48 +48,9 @@
     </main>
 
     <footer class="site-footer">
-        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
+        <p>&copy; 2026 Cassidy Dobratz. Crafted with intention.</p>
     </footer>
 
-    <!-- Custom cursor script -->
-    <script>
-        const cursor = document.querySelector('.cursor');
-        const follower = document.querySelector('.cursor-follower');
-
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animate() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
-
-            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
-            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
-
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        const interactives = document.querySelectorAll('a, button, .btn, input, textarea');
-        interactives.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                follower.style.width = '60px';
-                follower.style.height = '60px';
-                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
-            });
-            el.addEventListener('mouseleave', () => {
-                follower.style.width = '40px';
-                follower.style.height = '40px';
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/cursor.js') }}"></script>
 </body>
 </html>

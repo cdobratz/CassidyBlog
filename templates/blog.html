@@ -48,48 +48,9 @@
     </main>
 
     <footer class="site-footer">
-        <p>&copy; 2025 Cassidy Dobratz. Crafted with intention.</p>
+        <p>&copy; 2026 Cassidy Dobratz. Crafted with intention.</p>
     </footer>
 
-    <!-- Custom cursor script -->
-    <script>
-        const cursor = document.querySelector('.cursor');
-        const follower = document.querySelector('.cursor-follower');
-
-        let mouseX = 0, mouseY = 0;
-        let cursorX = 0, cursorY = 0;
-        let followerX = 0, followerY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        function animate() {
-            cursorX += (mouseX - cursorX) * 0.2;
-            cursorY += (mouseY - cursorY) * 0.2;
-            followerX += (mouseX - followerX) * 0.1;
-            followerY += (mouseY - followerY) * 0.1;
-
-            cursor.style.transform = `translate(${cursorX - 6}px, ${cursorY - 6}px)`;
-            follower.style.transform = `translate(${followerX - 20}px, ${followerY - 20}px)`;
-
-            requestAnimationFrame(animate);
-        }
-        animate();
-
-        const interactives = document.querySelectorAll('a, button, .btn');
-        interactives.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                follower.style.width = '60px';
-                follower.style.height = '60px';
-                follower.style.transform = `translate(${followerX - 30}px, ${followerY - 30}px)`;
-            });
-            el.addEventListener('mouseleave', () => {
-                follower.style.width = '40px';
-                follower.style.height = '40px';
-            });
-        });
-    </script>
+    <script src="{{ url_for('static', filename='js/cursor.js') }}"></script>
 </body>
 </html>
