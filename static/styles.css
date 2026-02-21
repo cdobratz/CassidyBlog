@@ -391,6 +391,15 @@ main {
     margin-top: calc(-1 * var(--space-md));
 }
 
+.project-card:nth-child(5) {
+    grid-column: 1 / 7;
+}
+
+.project-card:nth-child(6) {
+    grid-column: 7 / 13;
+    margin-top: var(--space-lg);
+}
+
 .project-number {
     font-family: var(--font-display);
     font-size: 4rem;
@@ -678,6 +687,7 @@ main {
 .delay-3 { animation-delay: 0.3s; }
 .delay-4 { animation-delay: 0.4s; }
 .delay-5 { animation-delay: 0.5s; }
+.delay-6 { animation-delay: 0.6s; }
 
 /* Responsive */
 @media (max-width: 1024px) {
