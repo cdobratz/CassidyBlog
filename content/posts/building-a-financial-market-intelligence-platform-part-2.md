@@ -6,6 +6,8 @@ In [Part 1](https://cassidydobratz.com/blog/building-a-financial-market-intellig
 
 So I went back to the drawing board. Not to scrap the project, but to address the hard truth that building an ML pipeline is only half the battle. The other half is making your models actually learn something meaningful from the data. In this post, I'll walk through four major changes I made — and why each one matters.
 
+[Live Demo](https://market-intel-api-1001565765695.us-west1.run.app/)
+
 ---
 
 ## The Problem with a Simple Train/Test Split
