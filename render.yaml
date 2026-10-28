@@ -1,0 +1,19 @@
+# CassidyBlog — Flask app rendered on each request (markdown posts, forms, auth).
+# Free web service. No database: posts are markdown files committed in content/posts.
+services:
+  - type: web
+    name: cassidy-blog
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn --bind 0.0.0.0:$PORT app:app
+    healthCheckPath: /health
+    autoDeployTrigger: commit
+    envVars:
+      - key: SECRET_KEY
+        sync: false
+      - key: ADMIN_USER
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false

@@ -231,6 +231,10 @@ def get_post_by_slug(slug):
                 }
     return None
 
+@app.route('/health')
+def health():
+    return 'ok', 200
+
 @app.route('/')
 def index():
     posts = get_posts()

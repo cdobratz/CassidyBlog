@@ -27,10 +27,11 @@ pip install -r requirements.txt
 ```
 
 ### Deployment
-The application is configured for Railway deployment:
+The application is configured for Render via `render.yaml` (free Python web service):
 ```bash
-# Production server starts automatically via railway.toml
-# Uses: gunicorn --bind 0.0.0.0:$PORT app:app
+# Build: pip install -r requirements.txt
+# Start: gunicorn --bind 0.0.0.0:$PORT app:app
+# Health: GET /health
 ```
 
 ## Architecture Overview
@@ -66,6 +67,7 @@ This is a Flask-based personal portfolio and blog with a markdown-driven content
 - **Title Deduplication**: Post rendering strips H1 from markdown to avoid duplicate titles in template
 
 ### Routes
+- `/health` - Liveness check (`200`, body `ok`)
 - `/` - Home page with recent posts
 - `/blog` - Blog listing page
 - `/blog/<slug>` - Individual blog post
@@ -89,12 +91,13 @@ This is a Flask-based personal portfolio and blog with a markdown-driven content
 
 ### Configuration
 - **Port**: Configurable via `PORT` environment variable (default: 8000)
-- **Host**: Bound to `0.0.0.0` for Railway deployment compatibility
+- **Host**: Bound to `0.0.0.0` so the Render proxy can reach the process
 - **Debug Mode**: Set to `False` in production (line 214)
 - **Posts Directory**: Hardcoded as `content/posts/` relative to app root
 
 ### Deployment Notes
-- Railway uses Nixpacks builder
-- Production uses Gunicorn WSGI server
-- Health check on `/` route
+- Render Blueprint: free Python web service in `render.yaml`
+- Production uses Gunicorn on `0.0.0.0:$PORT`
+- Health check on `/health`
 - No database - all content is file-based markdown
+- Env vars set in the Dashboard (`sync: false`): `SECRET_KEY`, `ADMIN_USER`, `ADMIN_PASSWORD`
