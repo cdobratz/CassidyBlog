@@ -1,115 +1,42 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>About | Cassidy Dobratz</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
-</head>
-<body>
-    <!-- Custom cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+{% extends "base.html" %}
 
-    <!-- Header -->
-    <header class="site-header">
-        <a href="{{ url_for('index') }}" class="site-logo">Cassidy Dobratz</a>
-        <nav class="site-nav">
-            <a href="{{ url_for('about') }}" class="link-underline">About</a>
-            <a href="{{ url_for('projects') }}" class="link-underline">Projects</a>
-            <a href="{{ url_for('blog') }}" class="link-underline">Blog</a>
-        </nav>
-    </header>
+{% block title %}About | Cassidy Dobratz{% endblock %}
 
-    <main>
-        <div class="about-content">
-            <div class="about-header animate-fade-up">
-                <h1 class="about-title">About</h1>
-                <p class="about-subtitle">Data Analytics Engineer · Machine Learning Engineer · Cloud Architect</p>
+{% block content %}
+<div class="page page--prose">
+    <p class="kicker">About</p>
+    <h1>Cassidy Dobratz</h1>
+    <p class="lede">Data analytics, machine learning, and cloud systems.</p>
+    <div class="about-copy">
+        <p>My technical toolkit spans modern frameworks like FastAPI and Axum, containerization with Docker, and cloud deployment strategies across AWS Lambda, Render, and DigitalOcean. I excel at transforming complex data challenges into production-ready applications.</p>
+        <p>From NFL sentiment analyzers with MongoDB Atlas integration to AI-powered recipe parsing services using transformer models—I build systems that balance analytical rigor with practical implementation. Healthcare experience has strengthened my ability to merge technical precision with human-centered design.</p>
+        <p>I specialize in data pipeline construction, ETL/ELT processes, and building robust APIs that serve real-time analytics and machine learning insights. My approach combines rigorous data science methodologies with modern software engineering practices, including MLOps, containerized deployments, and comprehensive documentation standards.</p>
+        <p>Whether developing sentiment analysis tools, building microservices for recipe intelligence, or creating scalable game schedule APIs, I focus on delivering maintainable, well-documented solutions that drive business value through data-driven insights and automated workflows.</p>
+    </div>
+    <section class="skills">
+        <h2>Technical stack</h2>
+        <dl>
+            <div class="skill-row">
+                <dt>Languages</dt>
+                <dd>Python, Go, JavaScript, TypeScript, SQL</dd>
             </div>
-
-            <div class="about-body">
-                <div class="about-text">
-                    <p class="animate-fade-up delay-1">
-                        My technical toolkit spans modern frameworks like FastAPI and Axum, containerization with Docker, and cloud deployment strategies across AWS Lambda, Render, and DigitalOcean. I excel at transforming complex data challenges into production-ready applications.
-                    </p>
-                    <p class="animate-fade-up delay-2">
-                        From NFL sentiment analyzers with MongoDB Atlas integration to AI-powered recipe parsing services using transformer models—I build systems that balance analytical rigor with practical implementation. Healthcare experience has strengthened my ability to merge technical precision with human-centered design.
-                    </p>
-                    <p class="animate-fade-up delay-3">
-                        I specialize in data pipeline construction, ETL/ELT processes, and building robust APIs that serve real-time analytics and machine learning insights. My approach combines rigorous data science methodologies with modern software engineering practices, including MLOps, containerized deployments, and comprehensive documentation standards.
-                    </p>
-                    <p class="animate-fade-up delay-4">
-                        Whether developing sentiment analysis tools, building microservices for recipe intelligence, or creating scalable game schedule APIs, I focus on delivering maintainable, well-documented solutions that drive business value through data-driven insights and automated workflows.
-                    </p>
-                </div>
-
-                <div class="skills-section animate-fade-up delay-3">
-                    <h2 class="skills-title">Technical Stack</h2>
-
-                    <div class="skill-category">
-                        <h3 class="skill-category-title">Languages</h3>
-                        <div class="skill-list">
-                            <span class="tag">Python</span>
-                            <span class="tag">Go</span>
-                            <span class="tag">JavaScript</span>
-                            <span class="tag">TypeScript</span>
-                            <span class="tag">SQL</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h3 class="skill-category-title">Databases & Frameworks</h3>
-                        <div class="skill-list">
-                            <span class="tag">MongoDB</span>
-                            <span class="tag">PostgreSQL</span>
-                            <span class="tag">Redis</span>
-                            <span class="tag">BigQuery</span>
-                            <span class="tag">FastAPI</span>
-                            <span class="tag">Flask</span>
-                            <span class="tag">Node.js</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h3 class="skill-category-title">Cloud & DevOps</h3>
-                        <div class="skill-list">
-                            <span class="tag">AWS</span>
-                            <span class="tag">Azure</span>
-                            <span class="tag">Docker</span>
-                            <span class="tag">Terraform</span>
-                            <span class="tag">GitHub Actions</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h3 class="skill-category-title">AI</h3>
-                        <div class="skill-list">
-                            <span class="tag tag-accent">HuggingFace</span>
-                            <span class="tag tag-accent">MLOps</span>
-                            <span class="tag">OpenRouter API</span>
-                            <span class="tag">Transformer Models</span>
-                        </div>
-                    </div>
-
-                    <div class="skill-category">
-                        <h3 class="skill-category-title">Architecture</h3>
-                        <div class="skill-list">
-                            <span class="tag">Microservices</span>
-                            <span class="tag">RESTful APIs</span>
-                            <span class="tag">Real-time Systems</span>
-                        </div>
-                    </div>
-                </div>
+            <div class="skill-row">
+                <dt>Data</dt>
+                <dd>MongoDB, PostgreSQL, Redis, BigQuery, FastAPI, Flask, Node.js</dd>
             </div>
-        </div>
-    </main>
-
-    <footer class="site-footer">
-        <p>&copy; 2026 Cassidy Dobratz. Crafted with intention.</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='js/cursor.js') }}"></script>
-</body>
-</html>
+            <div class="skill-row">
+                <dt>Cloud</dt>
+                <dd>AWS, Azure, Docker, Terraform, GitHub Actions</dd>
+            </div>
+            <div class="skill-row">
+                <dt>AI</dt>
+                <dd>HuggingFace, MLOps, OpenRouter API, transformer models</dd>
+            </div>
+            <div class="skill-row">
+                <dt>Architecture</dt>
+                <dd>Microservices, REST APIs, real-time systems</dd>
+            </div>
+        </dl>
+    </section>
+</div>
+{% endblock %}

@@ -120,8 +120,23 @@ def _get_posts_internal():
             print(f"Error reading {file}: {e}")
             continue
     
-    # Sort by custom date first, then by filename as fallback
-    return sorted(posts, key=lambda x: (x['date_obj'], x['slug']), reverse=True)
+    # Sort by custom date first, then by filename as fallback.
+    # Newest posts get the highest sheet number.
+    ordered = sorted(posts, key=lambda x: (x['date_obj'], x['slug']), reverse=True)
+    total = len(ordered)
+    for index, post in enumerate(ordered):
+        post['number'] = total - index
+    return ordered
+
+def group_posts_by_year(posts):
+    """Group an already newest-first post list into year sections."""
+    groups = []
+    for post in posts:
+        year = post['date_obj'].year
+        if not groups or groups[-1]['year'] != year:
+            groups.append({'year': year, 'posts': []})
+        groups[-1]['posts'].append(post)
+    return groups
 
 def parse_post_content(content, file_path):
     """Parse markdown content and extract metadata"""
@@ -148,8 +163,16 @@ def parse_post_content(content, file_path):
         'date_obj': date_obj,
         'date_str': date_str,
         'summary': summary,
+        'minutes': reading_minutes(content),
         'timestamp': os.path.getmtime(file_path)  # Keep for compatibility
     }
+
+def reading_minutes(content):
+    """Reading time at 200 words per minute, with a one-minute floor."""
+    words = re.findall(r"[A-Za-z0-9']+", content)
+    if not words:
+        return 1
+    return max(1, round(len(words) / 200))
 
 def extract_date_from_content(content, slug):
     """Extract or assign publication date"""
@@ -186,20 +209,20 @@ def extract_date_from_content(content, slug):
     # Fallback to file modification time
     return datetime(2024, 1, 1), 'January 1, 2024'
 
+def is_byline(line):
+    """True for an italic date and author line such as *March 6, 2026 | By Name*."""
+    stripped = line.strip()
+    return bool(re.match(r'^\*[^*]*\|\s*By\s+.+\*$', stripped))
+
 def create_summary(lines):
     """Create a clean summary from content lines"""
-    # Skip title (line 0) and potential date/author line
-    start_idx = 1
-    if len(lines) > 1 and ('*' in lines[1] or lines[1].strip() == ''):
-        start_idx = 2
-    
-    # Find content lines (skip empty lines)
     content_lines = []
-    for i in range(start_idx, min(len(lines), start_idx + 5)):
-        line = lines[i].strip()
-        if line and not line.startswith('#'):
-            content_lines.append(line)
-        if len(content_lines) >= 2:  # Get 2 substantial lines
+    for line in lines[1:]:
+        stripped = line.strip()
+        if not stripped or stripped.startswith('#') or is_byline(stripped):
+            continue
+        content_lines.append(stripped)
+        if len(content_lines) >= 2:
             break
     
     summary = ' '.join(content_lines)
@@ -219,16 +242,9 @@ def get_posts():
 
 def get_post_by_slug(slug):
     """Find a specific post by its slug (filename without extension)"""
-    for file in glob.glob(os.path.join(POSTS_DIR, '*.md')):
-        if os.path.basename(file).replace('.md', '') == slug:
-            with open(file, 'r') as f:
-                content = f.read()
-                title = content.split('\n')[0].replace('#', '').strip()
-                return {
-                    'title': title,
-                    'content': content,
-                    'slug': slug
-                }
+    for post in get_posts():
+        if post['slug'] == slug:
+            return post
     return None
 
 @app.route('/')
@@ -243,19 +259,18 @@ def projects():
 @app.route('/blog')
 def blog():
     posts = get_posts()
-    return render_template('blog.html', posts=posts)
+    return render_template('blog.html', posts=posts, groups=group_posts_by_year(posts))
 
 @app.route('/blog/<slug>')
 def post(slug):
     post = get_post_by_slug(slug)
     if post:
-        # Remove the first line (title) from markdown content to avoid duplication
+        # Drop the title and the italic byline. Both are shown in the page header.
         content_lines = post['content'].split('\n')
-        # Skip the first line if it's a heading (starts with #)
         if content_lines and content_lines[0].startswith('#'):
-            content_without_title = '\n'.join(content_lines[1:])
-        else:
-            content_without_title = post['content']
+            content_lines = content_lines[1:]
+        content_lines = [line for line in content_lines if not is_byline(line)]
+        content_without_title = '\n'.join(content_lines)
         
         html_content = markdown.markdown(content_without_title, extensions=['fenced_code'])
         html_content = bleach.clean(
@@ -266,7 +281,7 @@ def post(slug):
         )
         return render_template('post.html', post=post, html_content=html_content)
     else:
-        return "Post not found", 404
+        return render_template('not_found.html'), 404
 
 @app.route('/blog/new', methods=['GET', 'POST'])
 @requires_auth
