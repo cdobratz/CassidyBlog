@@ -5,7 +5,7 @@
 
 {% block content %}
 <div class="sky" aria-hidden="true"></div>
-<div class="ground" aria-hidden="true"></div>
+<canvas class="stage" data-field tabindex="0" role="application" aria-label="A field you can turn. Left and right arrows turn it one step."></canvas>
 <section class="hero">
     <h1 class="hero__word">Data <em>intelligence</em> architect</h1>
     <p class="hero__blurb">Transforming complexity into clarity through ML pipelines and cloud-native systems.</p>
@@ -16,4 +16,22 @@
         </a>
     </p>
 </section>
+<div class="track">
+    <div class="track__bar" data-track role="slider" tabindex="0" aria-label="Turn the field" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
+        <span class="track__mark" data-track-mark></span>
+    </div>
+    <p class="track__hint">Drag to turn</p>
+    <p class="track__keys">
+        <button type="button" class="icon-button" data-turn="-1" aria-label="Turn left">
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M10 6H2M5 3 2 6l3 3" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button type="button" class="icon-button" data-turn="1" aria-label="Turn right">
+            <svg viewBox="0 0 12 12" aria-hidden="true"><path d="M2 6h8M7 3l3 3-3 3" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+    </p>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/field.js') }}"></script>
 {% endblock %}
