@@ -1,50 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ post.title }} | Cassidy Dobratz</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
-</head>
-<body>
-    <!-- Custom cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+{% extends "base.html" %}
 
-    <!-- Header -->
-    <header class="site-header">
-        <a href="{{ url_for('index') }}" class="site-logo">Cassidy Dobratz</a>
-        <nav class="site-nav">
-            <a href="{{ url_for('about') }}" class="link-underline">About</a>
-            <a href="{{ url_for('projects') }}" class="link-underline">Projects</a>
-            <a href="{{ url_for('blog') }}" class="link-underline">Blog</a>
-        </nav>
-    </header>
+{% block title %}{{ post.title }} | Cassidy Dobratz{% endblock %}
 
-    <main>
-        <article class="blog-post">
-            <header class="post-header animate-fade-up">
-                <h1 class="post-title">{{ post.title }}</h1>
-                <div class="post-meta">Article</div>
-            </header>
+{% block head_extra %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+{% endblock %}
 
-            <div class="post-content animate-fade-up delay-2">
-                {{ html_content|safe }}
-            </div>
+{% block content %}
+<article class="page page--prose">
+    <p class="kicker post-kicker">{{ '%03d' % post.number }} · {{ post.date_obj.year }}</p>
+    <h1 class="post-title">{{ post.title }}</h1>
+    <p class="post-meta">{{ post.date_str }} · {{ post.minutes }} min</p>
+    <div class="post-content">
+        {{ html_content|safe }}
+    </div>
+    <a class="post-back" href="{{ url_for('blog') }}">All posts</a>
+</article>
+{% endblock %}
 
-            <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--border-light);">
-                <a href="{{ url_for('blog') }}" class="btn">← Back to Articles</a>
-            </footer>
-        </article>
-    </main>
-
-    <footer class="site-footer">
-        <p>&copy; 2026 Cassidy Dobratz. Crafted with intention.</p>
-    </footer>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="{{ url_for('static', filename='js/cursor.js') }}"></script>
-</body>
-</html>
+{% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="{{ url_for('static', filename='js/highlight-init.js') }}"></script>
+{% endblock %}

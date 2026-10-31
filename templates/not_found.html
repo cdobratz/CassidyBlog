@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Not found | Cassidy Dobratz{% endblock %}
+
+{% block content %}
+<div class="lost">
+    <p class="kicker">404</p>
+    <h1>No page at this address.</h1>
+    <p>The link may be out of date. The writing is on the blog.</p>
+    <p class="hero__go">
+        <a class="seam" href="{{ url_for('index') }}">
+            <span>Back home</span>
+            <span class="seam__icon" aria-hidden="true">→</span>
+        </a>
+    </p>
+</div>
+{% endblock %}

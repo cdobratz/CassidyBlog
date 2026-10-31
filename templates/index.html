@@ -1,142 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cassidy Dobratz — Data & ML Engineer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
-    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
-</head>
-<body>
-    <!-- Custom cursor -->
-    <div class="cursor"></div>
-    <div class="cursor-follower"></div>
+{% extends "base.html" %}
 
-    <!-- Header -->
-    <header class="site-header">
-        <a href="{{ url_for('index') }}" class="site-logo">Cassidy Dobratz</a>
-        <nav class="site-nav">
-            <a href="{{ url_for('about') }}" class="link-underline">About</a>
-            <a href="{{ url_for('projects') }}" class="link-underline">Projects</a>
-            <a href="{{ url_for('blog') }}" class="link-underline">Blog</a>
-        </nav>
-    </header>
+{% block title %}Cassidy Dobratz — Data & ML Engineer{% endblock %}
+{% block body_class %}is-home{% endblock %}
 
-    <main>
-        <!-- Hero Section - Asymmetric Editorial Layout -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1 class="hero-title animate-fade-up">
-                    Data<br>
-                    <span class="accent">Intelligence</span><br>
-                    Architect
-                </h1>
-                <p class="hero-subtitle animate-fade-up delay-2">
-                    Transforming complexity into clarity through ML pipelines & cloud-native systems
-                </p>
-                <p class="hero-description animate-fade-up delay-3">
-                    I specialize in building scalable machine learning infrastructure, real-time data processing systems, and intelligent automation using Python, Rust, and modern cloud platforms. From sentiment analysis engines to AI-powered recipe intelligence—I craft production-ready solutions that drive measurable impact.
-                </p>
-                <div class="animate-fade-up delay-4" style="margin-top: 2rem; display: flex; gap: 1rem;">
-                    <a href="{{ url_for('projects') }}" class="btn btn-primary">View Work</a>
-                    <a href="{{ url_for('about') }}" class="btn">About Me</a>
-                </div>
-            </div>
-            <div class="hero-visual">
-                <div class="hero-badge">Available for Projects</div>
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section id="projects">
-            <div class="section-header animate-slide-left">
-                <span class="section-number">01.</span>
-                <h2 class="section-title">Selected Work</h2>
-            </div>
-
-            <div class="projects-container">
-                <a href="https://azguard.dev" target="_blank" rel="noopener" class="project-card animate-fade-up delay-1">
-                    <div class="project-number">01</div>
-                    <h3 class="project-title">AzGuard</h3>
-                    <p class="project-description">
-                        CLI tool for Azure free tier protection. Monitors subscription usage against free tier limits, sends budget alerts, and provides automated resource cleanup to prevent unexpected billing charges.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag tag-accent">Go</span>
-                        <span class="tag">Azure</span>
-                        <span class="tag">CLI</span>
-                        <span class="tag">Cost Management</span>
-                    </div>
-                </a>
-
-                <a href="https://www.nextgen-vault.com/" target="_blank" rel="noopener" class="project-card animate-fade-up delay-2">
-                    <div class="project-number">02</div>
-                    <h3 class="project-title">Legacy Vault</h3>
-                    <p class="project-description">
-                        Secure digital legacy management platform. Store encrypted documents, preserve memories, and manage beneficiary access with server-side AES-256-GCM encryption.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag tag-accent">Next.js</span>
-                        <span class="tag">Supabase</span>
-                        <span class="tag">Encryption</span>
-                        <span class="tag">TypeScript</span>
-                    </div>
-                </a>
-
-                <a href="https://parsehub.dev/" target="_blank" rel="noopener" class="project-card animate-fade-up delay-3">
-                    <div class="project-number">03</div>
-                    <h3 class="project-title">MCP Server</h3>
-                    <p class="project-description">
-                        High-performance FastAPI server for document intelligence. Processes CSV files and documents (PDF, Word) with dedicated agents for data analysis and content extraction pipelines.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag tag-accent">Python</span>
-                        <span class="tag">FastAPI</span>
-                        <span class="tag">Document AI</span>
-                    </div>
-                </a>
-
-                <a href="https://github.com/cdobratz/market-intelligence-mvp" target="_blank" rel="noopener" class="project-card animate-fade-up delay-4">
-                    <div class="project-number">04</div>
-                    <h3 class="project-title">Market Intelligence Platform</h3>
-                    <p class="project-description">
-                        End-to-end ML pipeline for financial market analysis and prediction. Features automated data ingestion, feature engineering with technical indicators, and multiple ML models including XGBoost, LSTM, and ensemble methods with MLflow tracking.
-                    </p>
-                    <div class="project-tags">
-                        <span class="tag tag-accent">Python</span>
-                        <span class="tag">Apache Airflow</span>
-                        <span class="tag">MLflow</span>
-                        <span class="tag">FastAPI</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- Articles Section -->
-        <section id="articles">
-            <div class="section-header animate-slide-left">
-                <span class="section-number">02.</span>
-                <h2 class="section-title">Writing</h2>
-            </div>
-
-            <div class="articles-list">
-                {% for post in posts %}
-                <a href="{{ url_for('post', slug=post.slug) }}" class="article-item">
-                    <span class="article-number">{{ '%02d' % loop.index }}.</span>
-                    <span class="article-title">{{ post.title }}</span>
-                    <span class="article-arrow">→</span>
-                </a>
-                {% else %}
-                <p style="color: var(--text-muted); font-style: italic;">New articles coming soon. Check back for insights on ML engineering, data pipelines, and cloud architecture.</p>
-                {% endfor %}
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer">
-        <p>&copy; 2026 Cassidy Dobratz. Crafted with intention.</p>
-    </footer>
-
-    <script src="{{ url_for('static', filename='js/cursor.js') }}"></script>
-</body>
-</html>
+{% block content %}
+<div class="sky" aria-hidden="true"></div>
+<div class="ground" aria-hidden="true"></div>
+<section class="hero">
+    <h1 class="hero__word">Data <em>intelligence</em> architect</h1>
+    <p class="hero__blurb">Transforming complexity into clarity through ML pipelines and cloud-native systems.</p>
+    <p class="hero__go">
+        <a class="seam" href="{{ url_for('blog') }}">
+            <span>Read the blog</span>
+            <span class="seam__icon" aria-hidden="true">→</span>
+        </a>
+    </p>
+</section>
+{% endblock %}
