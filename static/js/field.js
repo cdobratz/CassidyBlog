@@ -24,18 +24,27 @@
     }
 
     var blades = [];
-    var count = 900;
-    for (var i = 0; i < count; i += 1) {
-        blades.push({
-            angle: unit(i + 1) * Math.PI * 2,
-            radius: Math.pow(unit(i + 2), 0.48),
-            height: 0.35 + Math.pow(unit(i + 3), 0.7) * 1.35,
-            lean: (unit(i + 4) - 0.5) * 0.7,
-            shade: unit(i + 5),
-            width: 1.1 + unit(i + 6) * 2.4,
-            flower: unit(i + 7) > 0.985 ? Math.floor(unit(i + 8) * 3) : -1
-        });
+    var clumpCount = 16;
+    for (var clump = 0; clump < clumpCount; clump += 1) {
+        var centerAngle = unit(clump + 1) * Math.PI * 2;
+        var centerRadius = Math.pow(unit(clump + 2), 0.7) * 0.9;
+        var members = 34 + Math.floor(unit(clump + 3) * 28);
+        for (var member = 0; member < members; member += 1) {
+            var index = clump * 70 + member;
+            var leaf = unit(index + 10) > 0.84;
+            blades.push({
+                angle: centerAngle + (unit(index + 4) - 0.5) * 0.62,
+                radius: Math.max(0.02, Math.min(0.98, centerRadius + (unit(index + 5) - 0.5) * 0.2)),
+                height: leaf ? 0.4 + unit(index + 6) * 0.55 : 0.55 + unit(index + 6) * 1.25,
+                lean: (unit(index + 7) - 0.5) * (leaf ? 0.45 : 1.05),
+                shade: unit(index + 8),
+                width: leaf ? 3.2 + unit(index + 9) * 2.4 : 1.15 + unit(index + 9) * 1.5,
+                leaf: leaf,
+                flower: !leaf && unit(index + 11) > 0.975 ? Math.floor(unit(index + 12) * 3) : -1
+            });
+        }
     }
+    var tree = { angle: -0.65, radius: 0.34 };
 
     function clampYaw(value) {
         return Math.max(yawMin, Math.min(yawMax, value));
@@ -60,14 +69,20 @@
                 soil: "rgba(36, 58, 42, 0.55)",
                 soilEdge: "rgba(20, 24, 28, 0)",
                 greens: ["#1a2e22", "#24382c", "#3a5644", "#7d9a78"],
-                flowers: ["#e08a68", "#efe8d4", "#8aa4b8"]
+                highlight: "rgba(186, 206, 170, 0.45)",
+                flowers: ["#e08a68", "#efe8d4", "#8aa4b8"],
+                bark: "#3a322c",
+                canopy: ["#1c3326", "#2a4634", "#3d5c46", "#6e8c6c"]
             };
         }
         return {
-            soil: "rgba(126, 158, 96, 0.55)",
+            soil: "rgba(126, 158, 96, 0.5)",
             soilEdge: "rgba(250, 248, 242, 0)",
-            greens: ["#3e5c38", "#5a7844", "#87a56a", "#d5e2b8"],
-            flowers: ["#c4532e", "#f7f3ea", "#6d92b0"]
+            greens: ["#3e5c38", "#5a7844", "#87a56a", "#d7e4bc"],
+            highlight: "rgba(244, 248, 220, 0.55)",
+            flowers: ["#c4532e", "#f7f3ea", "#6d92b0"],
+            bark: "#6a4a32",
+            canopy: ["#3d5c34", "#5d7c42", "#87a85a", "#c5d7a0"]
         };
     }
 
@@ -80,11 +95,25 @@
         return {
             x: width * 0.5 + x * Math.min(width, 920) * 0.28,
             y: height * 0.78 + z * height * 0.11,
-            rise: blade.height * height * (0.045 + near * 0.07),
+            rise: blade.height * height * (0.03 + near * 0.048),
             lean: blade.lean + sway,
             shade: blade.shade,
-            width: blade.width * (0.65 + near),
+            width: blade.width * (1.6 + near * 1.4),
+            leaf: blade.leaf,
             flower: blade.flower,
+            depth: z
+        };
+    }
+
+    function place(angle, radius) {
+        var turned = angle + yaw;
+        var x = Math.cos(turned) * radius;
+        var z = Math.sin(turned) * radius;
+        var span = Math.min(width, 920);
+        return {
+            x: width * 0.5 + x * span * 0.28,
+            y: height * 0.78 + z * height * 0.11,
+            near: (z + 1) / 2,
             depth: z
         };
     }
@@ -92,21 +121,75 @@
     function drawBlade(point, colors) {
         var tipX = point.x + point.lean * point.rise;
         var tipY = point.y - point.rise;
-        var base = Math.max(0.8, point.width * 0.55);
+        var base = Math.max(2.4, point.width * 0.72);
+        var bend = point.leaf ? 0.25 : 0.55;
+        var midX = point.x + point.lean * point.rise * bend;
+        var midY = point.y - point.rise * 0.62;
         var color = colors.greens[Math.min(colors.greens.length - 1, Math.floor(point.shade * colors.greens.length))];
         context.beginPath();
-        context.moveTo(point.x - base, point.y);
-        context.quadraticCurveTo(point.x + point.lean * point.rise * 0.3, point.y - point.rise * 0.55, tipX, tipY);
-        context.quadraticCurveTo(point.x + point.lean * point.rise * 0.15, point.y - point.rise * 0.4, point.x + base * 0.35, point.y);
+        context.moveTo(point.x - base * 0.55, point.y);
+        context.quadraticCurveTo(midX - base * 0.2, midY, tipX, tipY);
+        context.quadraticCurveTo(midX + base * 0.45, midY + point.rise * 0.05, point.x + base * 0.28, point.y);
         context.closePath();
         context.fillStyle = color;
         context.fill();
+        if (point.shade > 0.62) {
+            context.beginPath();
+            context.moveTo(point.x - base * 0.08, point.y - 1);
+            context.quadraticCurveTo(midX, midY, tipX, tipY);
+            context.strokeStyle = colors.highlight;
+            context.lineWidth = point.leaf ? 1.1 : 0.7;
+            context.stroke();
+        }
         if (point.flower >= 0) {
             context.beginPath();
-            context.arc(tipX, tipY, 2.2 + point.shade * 1.6, 0, Math.PI * 2);
+            context.arc(tipX, tipY, 2.4 + point.shade * 1.4, 0, Math.PI * 2);
             context.fillStyle = colors.flowers[point.flower];
             context.fill();
         }
+    }
+
+    function drawTree(spot, colors) {
+        var scale = 0.78 + spot.near * 0.45;
+        var trunkHeight = height * 0.22 * scale;
+        var trunkWidth = 11 * scale;
+        var ground = spot.y;
+        context.beginPath();
+        context.moveTo(spot.x - trunkWidth * 0.62, ground + 4);
+        context.bezierCurveTo(
+            spot.x - trunkWidth * 0.35, ground - trunkHeight * 0.35,
+            spot.x - trunkWidth * 0.2, ground - trunkHeight * 0.7,
+            spot.x - trunkWidth * 0.12, ground - trunkHeight
+        );
+        context.lineTo(spot.x + trunkWidth * 0.22, ground - trunkHeight);
+        context.bezierCurveTo(
+            spot.x + trunkWidth * 0.28, ground - trunkHeight * 0.62,
+            spot.x + trunkWidth * 0.4, ground - trunkHeight * 0.28,
+            spot.x + trunkWidth * 0.5, ground + 2
+        );
+        context.closePath();
+        context.fillStyle = colors.bark;
+        context.fill();
+        var crown = ground - trunkHeight;
+        var blobs = [
+            [2, 8, 70, 36, 0],
+            [-6, -6, 62, 40, 1],
+            [18, -2, 40, 30, 2],
+            [-22, -4, 38, 28, 1],
+            [0, -28, 36, 26, 3]
+        ];
+        blobs.forEach(function (blob) {
+            context.beginPath();
+            context.ellipse(
+                spot.x + blob[0] * scale,
+                crown + blob[1] * scale,
+                blob[2] * scale,
+                blob[3] * scale,
+                0, 0, Math.PI * 2
+            );
+            context.fillStyle = colors.canopy[blob[4]];
+            context.fill();
+        });
     }
 
     function draw(time) {
@@ -119,15 +202,21 @@
         context.beginPath();
         context.ellipse(width * 0.5, height * 0.84, Math.min(width, 920) * 0.32, height * 0.1, 0, 0, Math.PI * 2);
         context.fill();
-        var drawn = blades.map(function (blade) {
-            return project(blade, time);
+        var layers = blades.map(function (blade) {
+            var point = project(blade, time);
+            return { y: point.y, draw: function () { drawBlade(point, colors); } };
         });
-        drawn.sort(function (a, b) {
+        var trunk = place(tree.angle, tree.radius);
+        layers.push({
+            y: trunk.y,
+            draw: function () { drawTree(trunk, colors); }
+        });
+        layers.sort(function (a, b) {
             return a.y - b.y;
         });
-        for (var i = 0; i < drawn.length; i += 1) {
-            drawBlade(drawn[i], colors);
-        }
+        layers.forEach(function (layer) {
+            layer.draw();
+        });
     }
 
     function percent() {
