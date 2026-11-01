@@ -1,342 +1,64 @@
-// One boy stands in the clearing; each scene swaps in a different object
-// beside him. All shapes here are original low-poly primitives.
+// One painted picture per scene: the boy and one object on solid magenta
+// (#ff00ff), which the plane shader keys out. Every image is the same 3:2
+// frame (1536 x 1024 works well), drawn as if seen from the camera's low
+// angle, with the boy's feet on one shared ground line.
+//
+//   src        path of the PNG (served by Flask from static/)
+//   ground     how far up the image the feet sit, as a fraction of its height
+//              measured from the bottom (0.35-0.40). The plane is lowered by
+//              this much so the feet rest on the grass.
+//   landmarks  five [x, y] points as fractions of the image, y measured from
+//              the TOP like an image editor. Always in the same order, so the
+//              morph pulls each point toward its twin in the next picture:
+//                0 head, 1 free hand, 2 feet, 3 top of the object, 4 base of
+//                the object.
+//
+// Three placeholder pictures stand in until the real art lands; point `src`
+// at the real files one scene at a time.
 
-const red = "#c4532e";
-const redDeep = "#8d3820";
-const cream = "#f4efe2";
-const ink = "#2a2622";
-const paper = "#f7f3ea";
-const wood = "#8d5b38";
-const woodDark = "#5c3b28";
-const green = "#5e8a48";
-const gold = "#e2b656";
-const black = "#2b2b2b";
-const white = "#f6f3ec";
-const blue = "#6d92b0";
-const screen = "#f3d7a4";
-const navy = "#2a3848";
-const blush = "#e7b7c6";
-const orange = "#e08a4a";
-const clay = "#c47a58";
+const ART = "/static/art/situations/";
 
-
-const box = "box";
-const cyl = "cyl";
-const sph = "sph";
-const cone = "cone";
-const tor = "tor";
-const oct = "oct";
-const plane = "plane";
-
-export const SITUATIONS = [
-  {
-    name: "A red keycap",
-    parts: [
-      { g: cyl, a: [0.62, 0.86, 0.78, 6], p: [-0.15, 0.39, 0.05], c: red, r: [0, 0.2, 0] },
-      { g: cyl, a: [0.5, 0.58, 0.12, 6], p: [-0.15, 0.78, 0.05], c: redDeep, r: [0, 0.2, 0] },
-      { g: box, a: [0.42, 0.035, 0.07], p: [-0.15, 0.86, 0.05], c: cream, r: [0, 0.2, 0] },
-      { g: box, a: [0.42, 0.035, 0.07], p: [-0.15, 0.86, 0.05], c: cream, r: [0, 0.2 + Math.PI / 3, 0] },
-      { g: box, a: [0.42, 0.035, 0.07], p: [-0.15, 0.86, 0.05], c: cream, r: [0, 0.2 - Math.PI / 3, 0] },
-      { g: box, a: [0.42, 0.06, 0.56], p: [0.72, 0.08, 0.12], c: paper, r: [0, -0.35, 0] },
-      { g: box, a: [0.4, 0.02, 0.52], p: [0.72, 0.12, 0.12], c: white, r: [0, -0.35, 0] },
-      { g: cyl, a: [0.025, 0.025, 0.46, 8], p: [0.95, 0.16, 0.28], c: gold, r: [0.3, 0.4, 1.2] },
-      { g: cyl, a: [0.11, 0.09, 0.16, 12], p: [1.05, 0.08, -0.35], c: cream },
-      { g: tor, a: [0.07, 0.02, 8, 12], p: [1.16, 0.1, -0.28], c: cream, r: [Math.PI / 2, 0, 1.1] },
-    ],
+const PLACEHOLDER = {
+  a: {
+    src: ART + "placeholder-a.png",
+    ground: 0.36,
+    landmarks: [[0.381, 0.101], [0.45, 0.358], [0.375, 0.64], [0.61, 0.415], [0.61, 0.65]],
   },
-  {
-    name: "A laptop and a mug",
-    parts: [
-      { g: box, a: [0.92, 0.06, 0.62], p: [0.15, 0.08, 0.05], c: red, r: [0, -0.2, 0] },
-      { g: box, a: [0.9, 0.5, 0.04], p: [0.34, 0.32, -0.16], c: redDeep, r: [-1.05, -0.15, 0] },
-      { g: box, a: [0.74, 0.36, 0.02], p: [0.34, 0.34, -0.12], c: screen, r: [-1.05, -0.15, 0] },
-      { g: cyl, a: [0.11, 0.1, 0.18, 16], p: [-0.7, 0.1, 0.2], c: cream },
-      { g: tor, a: [0.08, 0.022, 8, 14], p: [-0.58, 0.12, 0.32], c: cream, r: [Math.PI / 2, 0, 0.6] },
-    ],
+  b: {
+    src: ART + "placeholder-b.png",
+    ground: 0.36,
+    landmarks: [[0.387, 0.101], [0.495, 0.279], [0.375, 0.64], [0.59, 0.476], [0.59, 0.673]],
   },
-  {
-    name: "A small telescope",
-    parts: [
-      { g: cyl, a: [0.03, 0.03, 0.72, 8], p: [0, 0.36, 0], c: wood, r: [0, 0, 0.55] },
-      { g: cyl, a: [0.03, 0.03, 0.72, 8], p: [-0.28, 0.18, 0.22], c: wood, r: [0.4, 0.2, 0.9] },
-      { g: cyl, a: [0.03, 0.03, 0.72, 8], p: [-0.28, 0.18, -0.22], c: wood, r: [-0.4, -0.2, 0.9] },
-      { g: cyl, a: [0.16, 0.2, 0.86, 16], p: [0.15, 0.72, 0], c: red, r: [0, 0, Math.PI / 2] },
-      { g: cyl, a: [0.1, 0.1, 0.12, 16], p: [0.62, 0.72, 0], c: gold, r: [0, 0, Math.PI / 2] },
-      { g: cyl, a: [0.07, 0.07, 0.04, 16], p: [0.7, 0.72, 0], c: navy, r: [0, 0, Math.PI / 2] },
-    ],
+  c: {
+    src: ART + "placeholder-c.png",
+    ground: 0.36,
+    landmarks: [[0.372, 0.101], [0.505, 0.231], [0.375, 0.64], [0.62, 0.096], [0.62, 0.65]],
   },
-  {
-    name: "An open book",
-    parts: [
-      { g: box, a: [0.7, 0.05, 0.5], p: [-0.32, 0.06, 0], c: redDeep, r: [0, 0.15, 0.08] },
-      { g: box, a: [0.64, 0.02, 0.44], p: [-0.32, 0.09, 0], c: paper, r: [0, 0.15, 0.08] },
-      { g: box, a: [0.7, 0.05, 0.5], p: [0.32, 0.06, 0], c: red, r: [0, -0.12, -0.06] },
-      { g: box, a: [0.64, 0.02, 0.44], p: [0.32, 0.09, 0], c: cream, r: [0, -0.12, -0.06] },
-      { g: box, a: [0.06, 0.08, 0.48], p: [0, 0.06, 0], c: woodDark },
-    ],
-  },
-  {
-    name: "A paper plane",
-    float: 1.15,
-    parts: [
-      { g: cone, a: [0.28, 0.7, 4], p: [0, 0, 0], c: paper, r: [0.4, 0.6, Math.PI / 2] },
-      { g: box, a: [0.55, 0.02, 0.22], p: [-0.05, 0.02, 0], c: white, r: [0, 0.5, 0.2] },
-    ],
-  },
-  {
-    name: "A tiny piano",
-    parts: [
-      { g: box, a: [1.15, 0.42, 0.48], p: [0, 0.28, 0], c: ink },
-      { g: box, a: [1.05, 0.06, 0.28], p: [0, 0.5, 0.12], c: woodDark, r: [-0.5, 0, 0] },
-      { g: box, a: [0.92, 0.05, 0.16], p: [0, 0.28, 0.26], c: cream },
-      { g: box, a: [0.08, 0.07, 0.05], p: [-0.28, 0.34, 0.28], c: ink },
-      { g: box, a: [0.08, 0.07, 0.05], p: [-0.08, 0.34, 0.28], c: ink },
-      { g: box, a: [0.08, 0.07, 0.05], p: [0.16, 0.34, 0.28], c: ink },
-      { g: box, a: [0.08, 0.07, 0.05], p: [0.36, 0.34, 0.28], c: ink },
-      { g: cyl, a: [0.04, 0.04, 0.55, 10], p: [-0.62, 0.22, 0], c: wood, r: [0, 0, 0.15] },
-    ],
-  },
-  {
-    name: "A camera",
-    parts: [
-      { g: box, a: [0.62, 0.42, 0.38], p: [0, 0.32, 0], c: ink, r: [0, -0.3, 0] },
-      { g: cyl, a: [0.16, 0.18, 0.28, 16], p: [0.08, 0.32, 0.28], c: black, r: [Math.PI / 2, 0, 0] },
-      { g: cyl, a: [0.1, 0.1, 0.06, 16], p: [0.08, 0.32, 0.44], c: blue, r: [Math.PI / 2, 0, 0] },
-      { g: box, a: [0.28, 0.12, 0.22], p: [-0.02, 0.56, -0.02], c: ink },
-      { g: cyl, a: [0.03, 0.03, 0.22, 8], p: [0.42, 0.2, 0], c: gold, r: [0, 0, Math.PI / 2] },
-    ],
-  },
-  {
-    name: "A picnic",
-    parts: [
-      { g: cyl, a: [0.28, 0.32, 0.28, 10], p: [-0.35, 0.16, 0], c: wood },
-      { g: tor, a: [0.3, 0.025, 8, 14], p: [-0.35, 0.28, 0], c: woodDark, r: [Math.PI / 2, 0, 0] },
-      { g: box, a: [0.7, 0.02, 0.7], p: [0.4, 0.02, 0.05], c: red },
-      { g: box, a: [0.22, 0.08, 0.16], p: [0.28, 0.07, 0.05], c: cream },
-      { g: box, a: [0.16, 0.06, 0.16], p: [0.52, 0.06, 0.12], c: green },
-      { g: sph, a: [0.07, 12, 10], p: [0.55, 0.12, -0.12], c: orange },
-    ],
-  },
-  {
-    name: "A small robot",
-    parts: [
-      { g: box, a: [0.46, 0.5, 0.34], p: [0, 0.46, 0], c: cream },
-      { g: box, a: [0.34, 0.26, 0.28], p: [0, 0.86, 0], c: paper },
-      { g: sph, a: [0.05, 10, 8], p: [-0.08, 0.88, 0.15], c: ink },
-      { g: sph, a: [0.05, 10, 8], p: [0.08, 0.88, 0.15], c: ink },
-      { g: box, a: [0.12, 0.04, 0.04], p: [0, 0.78, 0.15], c: red },
-      { g: cyl, a: [0.02, 0.02, 0.22, 8], p: [0.08, 1.08, 0], c: gold },
-      { g: sph, a: [0.045, 10, 8], p: [0.08, 1.2, 0], c: red },
-      { g: box, a: [0.1, 0.28, 0.1], p: [-0.32, 0.4, 0], c: blue, r: [0, 0, 0.4] },
-      { g: box, a: [0.1, 0.28, 0.1], p: [0.32, 0.36, 0], c: blue, r: [0, 0, -0.5] },
-      { g: box, a: [0.12, 0.16, 0.14], p: [-0.12, 0.1, 0.02], c: ink },
-      { g: box, a: [0.12, 0.16, 0.14], p: [0.12, 0.1, 0.02], c: ink },
-    ],
-  },
-  {
-    name: "Wet paint",
-    parts: [
-      { g: cyl, a: [0.025, 0.025, 0.9, 8], p: [-0.28, 0.45, 0], c: wood, r: [0, 0, 0.18] },
-      { g: cyl, a: [0.025, 0.025, 0.9, 8], p: [0.28, 0.45, 0], c: wood, r: [0, 0, -0.18] },
-      { g: cyl, a: [0.02, 0.02, 0.7, 8], p: [0, 0.78, 0], c: wood, r: [0, 0, Math.PI / 2] },
-      { g: box, a: [0.5, 0.62, 0.04], p: [0, 0.48, 0], c: cream },
-      { g: box, a: [0.18, 0.22, 0.02], p: [-0.08, 0.58, 0.03], c: green },
-      { g: box, a: [0.16, 0.18, 0.02], p: [0.1, 0.4, 0.03], c: blue },
-      { g: cyl, a: [0.1, 0.12, 0.16, 12], p: [0.55, 0.1, 0.15], c: red },
-      { g: cyl, a: [0.02, 0.02, 0.28, 8], p: [0.62, 0.22, 0.28], c: wood, r: [0.8, 0.2, 0.4] },
-    ],
-  },
-  {
-    name: "A chessboard",
-    parts: [
-      { g: box, a: [0.9, 0.06, 0.9], p: [0, 0.05, 0], c: wood },
-      { g: box, a: [0.78, 0.02, 0.78], p: [0, 0.09, 0], c: cream },
-      { g: box, a: [0.18, 0.02, 0.18], p: [-0.18, 0.11, -0.18], c: ink },
-      { g: box, a: [0.18, 0.02, 0.18], p: [0.18, 0.11, 0.18], c: ink },
-      { g: box, a: [0.18, 0.02, 0.18], p: [-0.18, 0.11, 0.18], c: woodDark },
-      { g: box, a: [0.18, 0.02, 0.18], p: [0.18, 0.11, -0.18], c: woodDark },
-      { g: cyl, a: [0.07, 0.08, 0.22, 10], p: [-0.18, 0.22, -0.18], c: cream },
-      { g: sph, a: [0.07, 12, 10], p: [-0.18, 0.36, -0.18], c: cream },
-      { g: cyl, a: [0.07, 0.08, 0.16, 10], p: [0.2, 0.18, 0.16], c: ink },
-      { g: cone, a: [0.08, 0.16, 10], p: [0.2, 0.34, 0.16], c: ink },
-    ],
-  },
-  {
-    name: "A ball of yarn",
-    parts: [
-      { g: sph, a: [0.34, 18, 14], p: [0, 0.34, 0], c: blush },
-      { g: tor, a: [0.22, 0.045, 8, 16], p: [0, 0.36, 0], c: red, r: [0.8, 0.4, 0.2] },
-      { g: tor, a: [0.18, 0.035, 8, 14], p: [0.05, 0.4, 0.05], c: orange, r: [1.2, 0.2, 0.8] },
-      { g: cyl, a: [0.015, 0.015, 0.7, 6], p: [0.45, 0.2, 0.15], c: blush, r: [0.4, 0, 1.1] },
-      { g: cone, a: [0.05, 0.22, 8], p: [-0.45, 0.16, -0.1], c: wood, r: [0, 0, 0.6] },
-    ],
-  },
-  {
-    name: "An umbrella",
-    rain: true,
-    parts: [
-      { g: cyl, a: [0.025, 0.025, 1.05, 8], p: [0, 0.52, 0], c: woodDark },
-      { g: cone, a: [0.62, 0.38, 16], p: [0, 1.12, 0], c: red },
-      { g: sph, a: [0.06, 10, 8], p: [0, 1.32, 0], c: gold },
-      { g: tor, a: [0.08, 0.02, 8, 12], p: [0, 0.08, 0.02], c: wood, r: [Math.PI / 2, 0, 0] },
-    ],
-  },
-  {
-    name: "Do not disturb",
-    parts: [
-      { g: box, a: [0.62, 1.15, 0.08], p: [0, 0.62, 0], c: wood },
-      { g: box, a: [0.4, 0.72, 0.02], p: [0, 0.7, 0.05], c: cream },
-      { g: cyl, a: [0.04, 0.04, 0.04, 10], p: [0.22, 0.58, 0.08], c: gold },
-      { g: box, a: [0.28, 0.16, 0.02], p: [0.46, 0.95, 0.08], c: red, r: [0, 0, 0.15] },
-      { g: box, a: [0.16, 0.03, 0.015], p: [0.46, 0.98, 0.1], c: cream, r: [0, 0, 0.15] },
-      { g: box, a: [0.16, 0.03, 0.015], p: [0.46, 0.93, 0.1], c: cream, r: [0, 0, 0.15] },
-    ],
-  },
-  {
-    name: "A block tower",
-    parts: [
-      { g: box, a: [0.38, 0.22, 0.22], p: [0, 0.12, 0], c: red, r: [0, 0.2, 0] },
-      { g: box, a: [0.34, 0.2, 0.2], p: [0.04, 0.32, 0.02], c: gold, r: [0, -0.15, 0] },
-      { g: box, a: [0.3, 0.2, 0.2], p: [-0.02, 0.52, -0.02], c: blue, r: [0, 0.3, 0] },
-      { g: box, a: [0.26, 0.18, 0.18], p: [0.05, 0.7, 0.02], c: green, r: [0, 0.1, 0.04] },
-      { g: box, a: [0.22, 0.16, 0.16], p: [-0.01, 0.86, 0], c: orange, r: [0, -0.2, -0.05] },
-      { g: box, a: [0.16, 0.14, 0.14], p: [0.04, 1.0, 0.02], c: blush, r: [0.08, 0.4, 0.1] },
-      { g: box, a: [0.2, 0.14, 0.14], p: [0.55, 0.08, 0.2], c: navy, r: [0, 0.4, 0.3] },
-    ],
-  },
-  {
-    name: "A box and a gift",
-    parts: [
-      { g: box, a: [0.55, 0.4, 0.48], p: [-0.4, 0.22, 0], c: wood, r: [0, 0.2, 0] },
-      { g: box, a: [0.5, 0.04, 0.42], p: [-0.28, 0.4, 0.08], c: cream, r: [0.15, 0.5, 0.2] },
-      { g: box, a: [0.48, 0.42, 0.48], p: [0.4, 0.24, 0], c: red },
-      { g: box, a: [0.5, 0.08, 0.08], p: [0.4, 0.46, 0], c: gold },
-      { g: box, a: [0.08, 0.46, 0.08], p: [0.4, 0.24, 0], c: gold },
-      { g: box, a: [0.22, 0.12, 0.16], p: [0.4, 0.56, 0], c: gold, r: [0.4, 0.2, 0.2] },
-    ],
-  },
-  {
-    name: "Bubbles",
-    parts: [
-      { g: sph, a: [0.22, 18, 14], p: [-0.2, 0.7, 0], c: white, o: 0.35 },
-      { g: sph, a: [0.14, 16, 12], p: [0.18, 0.95, 0.05], c: blue, o: 0.32 },
-      { g: sph, a: [0.1, 14, 10], p: [0.02, 1.2, -0.05], c: blush, o: 0.4 },
-      { g: sph, a: [0.08, 12, 10], p: [-0.35, 1.05, 0.1], c: cream, o: 0.35 },
-      { g: tor, a: [0.1, 0.02, 8, 12], p: [0.35, 0.15, 0.1], c: wood, r: [1.2, 0.2, 0.4] },
-      { g: cyl, a: [0.012, 0.012, 0.35, 6], p: [0.28, 0.28, 0.12], c: wood, r: [0.2, 0, 0.3] },
-    ],
-  },
-  {
-    name: "Pottery",
-    parts: [
-      { g: cyl, a: [0.28, 0.28, 0.08, 20], p: [-0.25, 0.05, 0], c: woodDark },
-      { g: cyl, a: [0.12, 0.16, 0.28, 16], p: [-0.25, 0.22, 0], c: clay },
-      { g: cyl, a: [0.18, 0.12, 0.22, 16], p: [0.4, 0.2, 0.05], c: clay },
-      { g: cyl, a: [0.1, 0.16, 0.16, 16], p: [0.4, 0.38, 0.05], c: orange },
-      { g: sph, a: [0.05, 10, 8], p: [0.15, 0.08, 0.25], c: cream },
-    ],
-  },
-  {
-    name: "A familiar monitor",
-    parts: [
-      { g: box, a: [0.95, 0.78, 0.72], p: [0.15, 0.5, 0], c: cream, r: [0, -0.25, 0] },
-      { g: box, a: [0.62, 0.48, 0.04], p: [0.12, 0.56, 0.36], c: screen, r: [0, -0.25, 0], e: screen, ei: 0.35 },
-      { g: sph, a: [0.035, 8, 8], p: [-0.02, 0.66, 0.4], c: ink },
-      { g: sph, a: [0.035, 8, 8], p: [0.1, 0.66, 0.42], c: ink },
-      { g: tor, a: [0.08, 0.015, 8, 12, Math.PI], p: [0.04, 0.52, 0.4], c: ink, r: [0, -0.25, 0] },
-      { g: sph, a: [0.04, 10, 8], p: [0.22, 0.28, 0.42], c: red },
-    ],
-  },
-  {
-    name: "Cloud delivery",
-    float: 1.05,
-    parts: [
-      { g: sph, a: [0.28, 16, 12], p: [-0.16, 0.05, 0], c: white },
-      { g: sph, a: [0.34, 16, 12], p: [0.12, 0.1, 0.02], c: paper },
-      { g: sph, a: [0.2, 14, 10], p: [0.34, 0.02, -0.02], c: white },
-      { g: box, a: [0.22, 0.18, 0.2], p: [0.05, -0.22, 0.05], c: wood },
-      { g: box, a: [0.08, 0.2, 0.02], p: [0.05, -0.22, 0.16], c: red },
-    ],
-  },
-  {
-    name: "Laundry",
-    parts: [
-      { g: cyl, a: [0.03, 0.03, 1.1, 8], p: [-0.7, 0.55, 0], c: wood },
-      { g: cyl, a: [0.03, 0.03, 1.1, 8], p: [0.7, 0.55, 0], c: wood },
-      { g: cyl, a: [0.012, 0.012, 1.4, 6], p: [0, 1.02, 0], c: ink, r: [0, 0, Math.PI / 2] },
-      { g: box, a: [0.28, 0.34, 0.02], p: [-0.28, 0.78, 0], c: cream },
-      { g: box, a: [0.32, 0.26, 0.02], p: [0.12, 0.8, 0], c: blue },
-      { g: box, a: [0.24, 0.3, 0.02], p: [0.46, 0.76, 0], c: red },
-    ],
-  },
-  {
-    name: "Borrowed moonlight",
-    parts: [
-      { g: box, a: [0.55, 0.7, 0.08], p: [-0.35, 0.48, 0], c: woodDark },
-      { g: box, a: [0.36, 0.46, 0.02], p: [-0.35, 0.52, 0.05], c: screen, e: "#f4e2b0", ei: 0.45 },
-      { g: box, a: [0.04, 0.5, 0.02], p: [-0.35, 0.52, 0.07], c: wood },
-      { g: box, a: [0.4, 0.04, 0.02], p: [-0.35, 0.52, 0.07], c: wood },
-      { g: sph, a: [0.28, 20, 16], p: [0.5, 0.85, -0.05], c: cream, e: "#f7f1dc", ei: 0.2 },
-      { g: sph, a: [0.22, 16, 12], p: [0.62, 0.9, 0.02], c: "#d9d3c4" },
-    ],
-  },
-  {
-    name: "A very slow boat",
-    parts: [
-      { g: box, a: [0.9, 0.18, 0.36], p: [0, 0.16, 0], c: wood, r: [0, 0.2, 0] },
-      { g: box, a: [0.7, 0.1, 0.28], p: [0, 0.28, 0], c: woodDark, r: [0, 0.2, 0] },
-      { g: cyl, a: [0.025, 0.025, 0.7, 8], p: [0.05, 0.6, 0], c: cream },
-      { g: box, a: [0.38, 0.42, 0.02], p: [0.18, 0.62, 0], c: paper, r: [0, 0, 0.08] },
-      { g: sph, a: [0.1, 12, 10], p: [-0.55, 0.16, 0.15], c: blue, o: 0.85 },
-    ],
-  },
-  {
-    name: "Stars on a line",
-    parts: [
-      { g: cyl, a: [0.025, 0.03, 0.7, 8], p: [-0.55, 0.35, 0], c: wood },
-      { g: cyl, a: [0.025, 0.03, 0.7, 8], p: [0.55, 0.35, 0], c: wood },
-      { g: cyl, a: [0.01, 0.01, 1.15, 6], p: [0, 0.78, 0], c: ink, r: [0, 0, Math.PI / 2] },
-      { g: oct, a: [0.1, 0], p: [-0.32, 0.62, 0], c: gold },
-      { g: oct, a: [0.13, 0], p: [0, 0.58, 0], c: cream },
-      { g: oct, a: [0.09, 0], p: [0.32, 0.64, 0], c: orange },
-      { g: sph, a: [0.05, 8, 8], p: [-0.12, 0.9, 0.1], c: white },
-      { g: sph, a: [0.04, 8, 8], p: [0.2, 0.98, -0.05], c: paper },
-    ],
-  },
-];
-
-const skin = "#e9b896";
-const hair = "#4a2f22";
-const shirt = "#3f6f8f";
-const shorts = "#2f3a46";
-const shoe = "#2a2622";
-
-// Parts are in the boy's local space: feet on y = 0, facing +z.
-export const BOY = {
-  legs: [
-    { g: cyl, a: [0.075, 0.07, 0.5, 10], p: [-0.1, 0.27, 0], c: skin },
-    { g: cyl, a: [0.075, 0.07, 0.5, 10], p: [0.1, 0.27, 0], c: skin },
-    { g: box, a: [0.15, 0.08, 0.24], p: [-0.1, 0.04, 0.04], c: shoe },
-    { g: box, a: [0.15, 0.08, 0.24], p: [0.1, 0.04, 0.04], c: shoe },
-  ],
-  body: [
-    { g: cyl, a: [0.2, 0.21, 0.22, 14], p: [0, 0.6, 0], c: shorts },
-    { g: cyl, a: [0.19, 0.22, 0.46, 14], p: [0, 0.92, 0], c: shirt },
-    { g: sph, a: [0.19, 14, 10], p: [0, 1.13, 0], s: [1, 0.45, 0.9], c: shirt },
-    { g: cyl, a: [0.06, 0.07, 0.08, 10], p: [0, 1.22, 0], c: skin },
-  ],
-  head: [
-    { g: sph, a: [0.24, 18, 14], p: [0, 0.2, 0], c: skin },
-    { g: sph, a: [0.25, 18, 14, 0, Math.PI * 2, 0, Math.PI * 0.55], p: [0, 0.22, -0.01], c: hair },
-    { g: box, a: [0.3, 0.05, 0.14], p: [0, 0.37, 0.17], c: red, r: [-0.25, 0, 0] },
-    { g: sph, a: [0.028, 8, 8], p: [-0.08, 0.21, 0.215], c: ink },
-    { g: sph, a: [0.028, 8, 8], p: [0.08, 0.21, 0.215], c: ink },
-    { g: box, a: [0.08, 0.018, 0.02], p: [0, 0.11, 0.225], c: redDeep },
-    { g: sph, a: [0.05, 8, 8], p: [-0.24, 0.19, 0], c: skin },
-    { g: sph, a: [0.05, 8, 8], p: [0.24, 0.19, 0], c: skin },
-  ],
-  arm: [
-    { g: cyl, a: [0.055, 0.05, 0.42, 8], p: [0, -0.21, 0], c: shirt },
-    { g: sph, a: [0.06, 8, 8], p: [0, -0.44, 0], c: skin },
-  ],
 };
+
+export const SCENES = [
+  { name: "A red keycap", ...PLACEHOLDER.a },
+  { name: "A laptop and a mug", ...PLACEHOLDER.b },
+  { name: "A small telescope", ...PLACEHOLDER.c },
+  { name: "An open book", ...PLACEHOLDER.b },
+  { name: "A paper plane", ...PLACEHOLDER.c },
+  { name: "A tiny piano", ...PLACEHOLDER.a },
+  { name: "A camera", ...PLACEHOLDER.b },
+  { name: "A picnic", ...PLACEHOLDER.a },
+  { name: "A small robot", ...PLACEHOLDER.c },
+  { name: "Wet paint", ...PLACEHOLDER.b },
+  { name: "A chessboard", ...PLACEHOLDER.a },
+  { name: "A ball of yarn", ...PLACEHOLDER.b },
+  { name: "An umbrella", ...PLACEHOLDER.c },
+  { name: "Do not disturb", ...PLACEHOLDER.a },
+  { name: "A block tower", ...PLACEHOLDER.c },
+  { name: "A box and a gift", ...PLACEHOLDER.a },
+  { name: "Bubbles", ...PLACEHOLDER.c },
+  { name: "Pottery", ...PLACEHOLDER.b },
+  { name: "A familiar monitor", ...PLACEHOLDER.a },
+  { name: "Cloud delivery", ...PLACEHOLDER.c },
+  { name: "Laundry", ...PLACEHOLDER.b },
+  { name: "Borrowed moonlight", ...PLACEHOLDER.a },
+  { name: "A very slow boat", ...PLACEHOLDER.b },
+  { name: "Stars on a line", ...PLACEHOLDER.c },
+];
