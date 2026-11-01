@@ -1,5 +1,5 @@
-// Original still-life clusters. The reference meadow pairs a reader with a cat;
-// these keep the objects and leave the cat out.
+// One boy stands in the clearing; each scene swaps in a different object
+// beside him. All shapes here are original low-poly primitives.
 
 const red = "#c4532e";
 const redDeep = "#8d3820";
@@ -19,7 +19,6 @@ const blush = "#e7b7c6";
 const orange = "#e08a4a";
 const clay = "#c47a58";
 
-export const RING = 7.6;
 
 const box = "box";
 const cyl = "cyl";
@@ -305,3 +304,39 @@ export const SITUATIONS = [
     ],
   },
 ];
+
+const skin = "#e9b896";
+const hair = "#4a2f22";
+const shirt = "#3f6f8f";
+const shorts = "#2f3a46";
+const shoe = "#2a2622";
+
+// Parts are in the boy's local space: feet on y = 0, facing +z.
+export const BOY = {
+  legs: [
+    { g: cyl, a: [0.075, 0.07, 0.5, 10], p: [-0.1, 0.27, 0], c: skin },
+    { g: cyl, a: [0.075, 0.07, 0.5, 10], p: [0.1, 0.27, 0], c: skin },
+    { g: box, a: [0.15, 0.08, 0.24], p: [-0.1, 0.04, 0.04], c: shoe },
+    { g: box, a: [0.15, 0.08, 0.24], p: [0.1, 0.04, 0.04], c: shoe },
+  ],
+  body: [
+    { g: cyl, a: [0.2, 0.21, 0.22, 14], p: [0, 0.6, 0], c: shorts },
+    { g: cyl, a: [0.19, 0.22, 0.46, 14], p: [0, 0.92, 0], c: shirt },
+    { g: sph, a: [0.19, 14, 10], p: [0, 1.13, 0], s: [1, 0.45, 0.9], c: shirt },
+    { g: cyl, a: [0.06, 0.07, 0.08, 10], p: [0, 1.22, 0], c: skin },
+  ],
+  head: [
+    { g: sph, a: [0.24, 18, 14], p: [0, 0.2, 0], c: skin },
+    { g: sph, a: [0.25, 18, 14, 0, Math.PI * 2, 0, Math.PI * 0.55], p: [0, 0.22, -0.01], c: hair },
+    { g: box, a: [0.3, 0.05, 0.14], p: [0, 0.37, 0.17], c: red, r: [-0.25, 0, 0] },
+    { g: sph, a: [0.028, 8, 8], p: [-0.08, 0.21, 0.215], c: ink },
+    { g: sph, a: [0.028, 8, 8], p: [0.08, 0.21, 0.215], c: ink },
+    { g: box, a: [0.08, 0.018, 0.02], p: [0, 0.11, 0.225], c: redDeep },
+    { g: sph, a: [0.05, 8, 8], p: [-0.24, 0.19, 0], c: skin },
+    { g: sph, a: [0.05, 8, 8], p: [0.24, 0.19, 0], c: skin },
+  ],
+  arm: [
+    { g: cyl, a: [0.055, 0.05, 0.42, 8], p: [0, -0.21, 0], c: shirt },
+    { g: sph, a: [0.06, 8, 8], p: [0, -0.44, 0], c: skin },
+  ],
+};

@@ -156,7 +156,9 @@
         }
     }
 
-    word.addEventListener("pointerenter", onEnter);
+    // Reveal only when the cursor reaches the letters themselves; hide once it
+    // leaves the whole title (which by then includes "Not").
+    typed.addEventListener("pointerenter", onEnter);
     word.addEventListener("pointerleave", onLeave);
     word.addEventListener("focus", onEnter);
     word.addEventListener("blur", onLeave);
@@ -171,19 +173,12 @@
         return;
     }
 
+    // Intro types only "My Boring Portfolio". "Not" stays hidden until the
+    // letters are hovered or the title is focused.
     caret.classList.add("caret--on");
     wait(640)
         .then(function () {
-            return type(extra, 58);
-        })
-        .then(function () {
             return type(main, 52);
-        })
-        .then(function () {
-            return wait(480);
-        })
-        .then(function () {
-            return erase(extra, 40);
         })
         .then(function () {
             return wait(220);
@@ -191,7 +186,7 @@
         .then(function () {
             ready = true;
             setLabel(false);
-            if (hovering || word.matches(":hover") || word.matches(":focus")) {
+            if (hovering || typed.matches(":hover") || word.matches(":focus")) {
                 return reveal(true);
             }
             caret.classList.remove("caret--on");
