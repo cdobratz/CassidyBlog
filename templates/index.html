@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}Cassidy Dobratz — Data & ML Engineer{% endblock %}
+{% block title %}My Boring Portfolio{% endblock %}
 {% block body_class %}is-home{% endblock %}
 
 {% block content %}
 <div class="sky" aria-hidden="true"></div>
-<canvas class="stage" data-field tabindex="0" role="application" aria-label="A field you can turn. Left and right arrows turn it one step."></canvas>
+<div class="stage" data-meadow tabindex="0" role="application" aria-label="A field of objects you can turn. Left and right arrows move to the next object."></div>
 <section class="hero">
-    <h1 class="hero__word">Data <em>intelligence</em> architect</h1>
+    <h1 class="hero__word">
+        <span class="hero__row">
+            <em class="no" hidden>Not </em>
+            <span data-type="true">My Boring Portfolio</span>
+        </span>
+    </h1>
     <p class="hero__blurb">Transforming complexity into clarity through ML pipelines and cloud-native systems.</p>
     <p class="hero__go">
         <a class="seam" href="{{ url_for('blog') }}">
@@ -20,6 +25,7 @@
     <div class="track__bar" data-track role="slider" tabindex="0" aria-label="Turn the field" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50">
         <span class="track__mark" data-track-mark></span>
     </div>
+    <p class="track__name" data-situation>A red keycap</p>
     <p class="track__hint">Drag to turn</p>
     <p class="track__keys">
         <button type="button" class="icon-button" data-turn="-1" aria-label="Turn left">
@@ -33,5 +39,6 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="{{ url_for('static', filename='js/field.js') }}"></script>
+<script type="module" src="{{ url_for('static', filename='meadow/meadow.js') }}"></script>
+<script src="{{ url_for('static', filename='js/letters.js') }}"></script>
 {% endblock %}

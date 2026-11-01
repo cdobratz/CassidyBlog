@@ -1,4 +1,6 @@
 venv/
+meadow/node_modules/
+meadow/dist/
 __pycache__/
 *.pyc
 *.pyo
