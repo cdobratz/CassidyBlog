@@ -8,8 +8,10 @@ import * as THREE from "three";
 // noise field sliding across the ground, so gusts travel as waves instead of
 // every blade waving on its own clock.
 
-export const FIELD = 10.5; // radius of the grass disc
-export const CLEARING = 1.7; // short grass where the boy stands
+// The grass is a small mound floating on the paper, not a field: dense fine
+// blades with tall wisps rising around the rim, like the reference.
+export const FIELD = 3.9; // radius of the grass mound
+export const CLEARING = 1.3; // shorter grass where the boy stands
 
 const NOISE = `
 float hash12(vec2 p) {
@@ -90,8 +92,10 @@ void main() {
     + vec3(0.0, 1.0, 0.0) * (t * h * (1.0 - 0.18 * min(over, 2.0) * curve));
 
   vec3 green = groundColour(iPos.xz) * (0.9 + 0.2 * iShade);
+  // A few strands are the warm red of the reference's brush marks.
+  green = mix(green, uWarm, step(0.955, iShade) * 0.85);
   // Down among the other blades it is darker; the top catches the light.
-  green = mix(uDeep, green, 0.4 + 0.6 * smoothstep(0.0, 0.62, t));
+  green = mix(uDeep, green, 0.5 + 0.5 * smoothstep(0.0, 0.62, t));
   green = mix(green, uPale, smoothstep(0.72, 1.0, t) * 0.45);
   vColor = green;
   gl_Position = projectionMatrix * viewMatrix * vec4(p, 1.0);
@@ -121,17 +125,17 @@ uniform float uRadius;
 ${NOISE}
 void main() {
   float d = length(vXZ) / uRadius;
-  float edge = 1.0 - smoothstep(0.86, 1.0, d + (fbm(vXZ * 0.6) - 0.5) * 0.08);
+  float edge = 1.0 - smoothstep(0.84, 1.0, d + (fbm(vXZ * 0.9) - 0.5) * 0.2);
   if (edge <= 0.01) discard;
-  vec3 c = mix(uDeep, groundColour(vXZ), 0.62);
+  vec3 c = mix(uDeep, groundColour(vXZ), 0.7);
   gl_FragColor = vec4(c, edge);
   #include <colorspace_fragment>
 }
 `;
 
 const PALETTE = {
-  day: { grass: "#84a555", pale: "#c9d49a", deep: "#2f4a2a", warm: "#d06a49", cold: "#bfb788" },
-  night: { grass: "#36443a", pale: "#5c6a58", deep: "#0b1714", warm: "#7d3a1c", cold: "#566276" },
+  day: { grass: "#84a555", pale: "#99ab6d", deep: "#052e42", warm: "#d06a49", cold: "#bfb788" },
+  night: { grass: "#36443a", pale: "#5c6a58", deep: "#06141c", warm: "#7d3a1c", cold: "#566276" },
 };
 
 function rng(seed) {
@@ -183,7 +187,7 @@ export function Grass({ night, reduced }) {
 
   const { blades, ground, flowers } = useMemo(() => {
     const small = window.innerWidth < 720;
-    const count = reduced ? 9000 : small ? 16000 : 30000;
+    const count = reduced ? 12000 : small ? 20000 : 38000;
     const random = rng(7);
     const geom = bladeStrip(6);
     const iPos = new Float32Array(count * 3);
@@ -198,12 +202,17 @@ export function Grass({ night, reduced }) {
       const radius = Math.sqrt(random()) * FIELD;
       const x = Math.cos(angle) * radius;
       const z = Math.sin(angle) * radius;
-      // Short in the clearing, tallest mid-field, thinning at the rim.
-      const clear = THREE.MathUtils.smoothstep(radius, CLEARING * 0.6, CLEARING * 1.5);
-      const rim = 1 - THREE.MathUtils.smoothstep(radius, FIELD * 0.78, FIELD);
-      const height = (0.12 + random() * 0.42) * (0.3 + 0.7 * clear) * (0.35 + 0.65 * rim);
+      // A dense sward of fine blades, a touch shorter where the boy stands,
+      // thinning at the rim, with tall wisps rising mostly toward the edge.
+      const clear = THREE.MathUtils.smoothstep(radius, CLEARING * 0.5, CLEARING * 1.4);
+      const rim = 1 - THREE.MathUtils.smoothstep(radius, FIELD * 0.84, FIELD);
+      const wisp = random() < 0.04 + 0.14 * (radius / FIELD);
+      const base = wisp ? 0.4 + random() * 0.4 : 0.09 + random() * 0.2;
+      const height = base * (0.4 + 0.6 * clear) * (0.45 + 0.55 * rim);
+      const width = wisp ? 0.012 + random() * 0.012 : 0.02 + random() * 0.03;
+      const lean = wisp ? 0.3 + random() * 0.5 : 0.15 + random() * 0.35;
       iPos.set([x, 0, z], i * 3);
-      iParams.set([height, 0.07 + random() * 0.08, 0.15 + random() * 0.35, random() * Math.PI * 2], i * 4);
+      iParams.set([height, width, lean, random() * Math.PI * 2], i * 4);
       const leanAngle = random() * Math.PI * 2;
       iLean.set([Math.cos(leanAngle), Math.sin(leanAngle)], i * 2);
       const face = (random() - 0.5) * 1.1;
