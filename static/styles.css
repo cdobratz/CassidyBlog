@@ -230,7 +230,10 @@ body.is-home .track {
     width: min(34rem, calc(100% - 2 * var(--gutter)));
     grid-template-columns: 1fr auto;
     align-items: center;
-    gap: 0.35rem 0.75rem;
+    gap: 0.2rem 0.75rem;
+    padding: 0.45rem 0.85rem 0.55rem;
+    border-radius: 0.85rem;
+    background: color-mix(in srgb, var(--paper) 82%, transparent);
     color: var(--ink-3);
     font-size: 0.75rem;
     pointer-events: none;
@@ -265,6 +268,16 @@ body.is-home .track {
     transform: translate(-50%, -50%);
 }
 
+.track__name {
+    grid-column: 1 / -1;
+    margin: 0.15rem 0 0;
+    text-align: center;
+    color: var(--ink-2);
+    font-family: var(--serif);
+    font-size: 1rem;
+    letter-spacing: -0.02em;
+}
+
 .track__hint,
 .track__keys {
     margin: 0;
@@ -286,7 +299,8 @@ body.is-home .track {
 }
 
 .hero a,
-.hero button {
+.hero button,
+.hero__word {
     pointer-events: auto;
 }
 
@@ -303,18 +317,79 @@ body.is-home .track {
 
 .hero__word {
     margin: 0;
-    max-width: 16ch;
+    max-width: none;
+    position: relative;
     font-family: var(--serif);
     font-weight: 400;
-    font-size: clamp(2.4rem, 7.4vw, 5.3rem);
+    font-size: clamp(1.7rem, 6.2vw, 4.8rem);
     letter-spacing: -0.028em;
-    line-height: 0.98;
-    text-wrap: balance;
+    line-height: 1;
+    white-space: nowrap;
+    cursor: default;
 }
 
-.hero__word em {
+.hero__row,
+.word {
+    white-space: nowrap;
+}
+
+.hero__row {
+    display: inline;
+}
+
+.hero__word .ch {
+    font-kerning: none;
+    font-variant-ligatures: none;
+}
+
+.hero__word .no {
+    color: var(--red);
     font-style: italic;
     font-weight: 400;
+    font-size: 0.62em;
+}
+
+.hero__word .ch.is-on {
+    animation: letter-in 0.34s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes letter-in {
+    from {
+        opacity: 0;
+        transform: translateY(0.22em);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+.caret {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 0.82em;
+    background: var(--red);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.caret--on {
+    opacity: 1;
+    animation: caret 0.88s step-end infinite;
+}
+
+@keyframes caret {
+    0%, 49% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .caret,
+    .hero__word .ch.is-on {
+        animation: none;
+    }
 }
 
 .hero__blurb {
