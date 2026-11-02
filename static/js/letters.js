@@ -3,14 +3,15 @@
     if (!word) {
         return;
     }
+    var head = word.querySelector("[data-type]");
     var aside = word.querySelector(".no");
-    var typed = word.querySelector("[data-type]");
-    if (!aside || !typed) {
+    var tail = word.querySelector("[data-type-end]");
+    if (!head || !aside || !tail) {
         return;
     }
     var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var restLabel = "My Boring Portfolio";
-    var hoverLabel = "Not My Boring Portfolio";
+    var restLabel = "My Not Boring Portfolio";
+    var hoverLabel = "My Boring Portfolio";
 
     function split(node, mode) {
         var text = node.textContent;
@@ -54,8 +55,9 @@
     }
 
     aside.hidden = false;
-    var main = split(typed, "vis");
+    var first = split(head, "vis");
     var extra = split(aside, "box");
+    var last = split(tail, "vis");
     var caret = document.createElement("i");
     caret.className = "caret";
     caret.setAttribute("aria-hidden", "true");
@@ -100,8 +102,8 @@
                 var previous = list[index + 1];
                 if (previous) {
                     placeCaret(previous);
-                } else if (main[0]) {
-                    placeCaret(main[main.length - 1]);
+                } else if (first.length) {
+                    placeCaret(first[first.length - 1]);
                 }
                 return wait(beat * 0.42);
             });
@@ -117,21 +119,23 @@
         word.setAttribute("aria-label", hoveringNow ? hoverLabel : restLabel);
     }
 
+    // "Not" is part of the title at rest. Hovering the letters erases it, so
+    // the title briefly admits to being boring; leaving types it back.
     function reveal(on) {
         var token = ++job;
         hovering = on;
         if (reduced) {
             extra.forEach(function (ch) {
-                show(ch, on);
+                show(ch, !on);
             });
             setLabel(on);
             return Promise.resolve();
         }
         caret.classList.add("caret--on");
-        var run = on ? type(extra, 46) : erase(extra, 34);
+        var run = on ? erase(extra, 34) : type(extra, 46);
         return run.then(function () {
-            if (on && main.length) {
-                placeCaret(main[main.length - 1]);
+            if (last.length) {
+                placeCaret(last[last.length - 1]);
             }
             if (token !== job) {
                 return;
@@ -156,15 +160,17 @@
         }
     }
 
-    // Reveal only when the cursor reaches the letters themselves; hide once it
-    // leaves the whole title (which by then includes "Not").
-    typed.addEventListener("pointerenter", onEnter);
+    // React only when the cursor reaches the letters themselves; restore once
+    // it leaves the whole title.
+    [head, aside, tail].forEach(function (node) {
+        node.addEventListener("pointerenter", onEnter);
+    });
     word.addEventListener("pointerleave", onLeave);
     word.addEventListener("focus", onEnter);
     word.addEventListener("blur", onLeave);
 
     if (reduced) {
-        main.forEach(function (ch) {
+        first.concat(extra, last).forEach(function (ch) {
             show(ch, true);
         });
         caret.remove();
@@ -173,12 +179,17 @@
         return;
     }
 
-    // Intro types only "My Boring Portfolio". "Not" stays hidden until the
-    // letters are hovered or the title is focused.
+    // Intro types the whole title, "Not" included, in reading order.
     caret.classList.add("caret--on");
     wait(640)
         .then(function () {
-            return type(main, 52);
+            return type(first, 52);
+        })
+        .then(function () {
+            return type(extra, 46);
+        })
+        .then(function () {
+            return type(last, 52);
         })
         .then(function () {
             return wait(220);
@@ -186,14 +197,9 @@
         .then(function () {
             ready = true;
             setLabel(false);
-            if (hovering || typed.matches(":hover") || word.matches(":focus")) {
+            if (hovering || word.matches(":hover") || word.matches(":focus")) {
                 return reveal(true);
             }
             caret.classList.remove("caret--on");
-            window.setTimeout(function () {
-                if (!hovering) {
-                    caret.classList.remove("caret--on");
-                }
-            }, 360);
         });
 })();

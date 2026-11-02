@@ -394,7 +394,7 @@ body.is-home .track {
 
 .hero__blurb {
     max-width: 26rem;
-    margin: 1.7rem 0 0;
+    margin: 1.4rem 0 0;
     color: var(--ink-2);
     font-size: clamp(0.95rem, 1.05vw, 1.0625rem);
     line-height: 1.6;
@@ -402,7 +402,7 @@ body.is-home .track {
 }
 
 .hero__go {
-    margin-top: 2.1rem;
+    margin-top: 1.25rem;
 }
 
 .seam {

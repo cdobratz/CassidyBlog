@@ -1,64 +1,41 @@
-// One painted picture per scene: the boy and one object on solid magenta
+// One painted picture per scene: the man and his dog on solid magenta
 // (#ff00ff), which the plane shader keys out. Every image is the same 3:2
-// frame (1536 x 1024 works well), drawn as if seen from the camera's low
-// angle, with the boy's feet on one shared ground line.
+// frame (1536 x 1024), drawn as if seen from the camera's low angle, with the
+// man's feet on one shared ground line.
 //
-//   src        path of the PNG (served by Flask from static/)
+//   src        path of the WebP (served by Flask from static/)
 //   ground     how far up the image the feet sit, as a fraction of its height
-//              measured from the bottom (0.35-0.40). The plane is lowered by
-//              this much so the feet rest on the grass.
+//              measured from the bottom (0.13-0.20 in this set). The plane is
+//              lowered by this much so the feet rest on the grass.
 //   landmarks  five [x, y] points as fractions of the image, y measured from
 //              the TOP like an image editor. Always in the same order, so the
 //              morph pulls each point toward its twin in the next picture:
-//                0 head, 1 free hand, 2 feet, 3 top of the object, 4 base of
-//                the object.
+//                0 the man's head, 1 his busy hand, 2 his feet,
+//                3 the dog's head, 4 the dog's feet or belly on the ground.
 //
-// Three placeholder pictures stand in until the real art lands; point `src`
-// at the real files one scene at a time.
+// Add ?morph=0.5 to the homepage URL to hold each change of scene half way
+// and judge the pull when adjusting a landmark.
 
 const ART = "/static/art/situations/";
 
-const PLACEHOLDER = {
-  a: {
-    src: ART + "placeholder-a.png",
-    ground: 0.36,
-    landmarks: [[0.381, 0.101], [0.45, 0.358], [0.375, 0.64], [0.61, 0.415], [0.61, 0.65]],
-  },
-  b: {
-    src: ART + "placeholder-b.png",
-    ground: 0.36,
-    landmarks: [[0.387, 0.101], [0.495, 0.279], [0.375, 0.64], [0.59, 0.476], [0.59, 0.673]],
-  },
-  c: {
-    src: ART + "placeholder-c.png",
-    ground: 0.36,
-    landmarks: [[0.372, 0.101], [0.505, 0.231], [0.375, 0.64], [0.62, 0.096], [0.62, 0.65]],
-  },
-};
+const scene = (name, file, ground, landmarks) => ({ name, src: ART + file + ".webp", ground, landmarks });
 
 export const SCENES = [
-  { name: "A red keycap", ...PLACEHOLDER.a },
-  { name: "A laptop and a mug", ...PLACEHOLDER.b },
-  { name: "A small telescope", ...PLACEHOLDER.c },
-  { name: "An open book", ...PLACEHOLDER.b },
-  { name: "A paper plane", ...PLACEHOLDER.c },
-  { name: "A tiny piano", ...PLACEHOLDER.a },
-  { name: "A camera", ...PLACEHOLDER.b },
-  { name: "A picnic", ...PLACEHOLDER.a },
-  { name: "A small robot", ...PLACEHOLDER.c },
-  { name: "Wet paint", ...PLACEHOLDER.b },
-  { name: "A chessboard", ...PLACEHOLDER.a },
-  { name: "A ball of yarn", ...PLACEHOLDER.b },
-  { name: "An umbrella", ...PLACEHOLDER.c },
-  { name: "Do not disturb", ...PLACEHOLDER.a },
-  { name: "A block tower", ...PLACEHOLDER.c },
-  { name: "A box and a gift", ...PLACEHOLDER.a },
-  { name: "Bubbles", ...PLACEHOLDER.c },
-  { name: "Pottery", ...PLACEHOLDER.b },
-  { name: "A familiar monitor", ...PLACEHOLDER.a },
-  { name: "Cloud delivery", ...PLACEHOLDER.c },
-  { name: "Laundry", ...PLACEHOLDER.b },
-  { name: "Borrowed moonlight", ...PLACEHOLDER.a },
-  { name: "A very slow boat", ...PLACEHOLDER.b },
-  { name: "Stars on a line", ...PLACEHOLDER.c },
+  scene("A red keycap", "keycap", 0.15, [[0.39, 0.25], [0.47, 0.52], [0.68, 0.80], [0.69, 0.65], [0.75, 0.78]]),
+  scene("A laptop and a mug", "laptop", 0.18, [[0.36, 0.20], [0.44, 0.50], [0.40, 0.78], [0.74, 0.56], [0.70, 0.78]]),
+  scene("An open book", "book", 0.17, [[0.33, 0.20], [0.29, 0.42], [0.17, 0.80], [0.60, 0.63], [0.68, 0.78]]),
+  scene("A paper plane", "paper-plane", 0.17, [[0.31, 0.19], [0.52, 0.22], [0.36, 0.78], [0.70, 0.44], [0.75, 0.80]]),
+  scene("A tiny piano", "piano", 0.17, [[0.32, 0.20], [0.47, 0.57], [0.38, 0.78], [0.70, 0.44], [0.75, 0.80]]),
+  scene("A camera", "camera", 0.13, [[0.38, 0.17], [0.45, 0.38], [0.27, 0.85], [0.57, 0.42], [0.68, 0.82]]),
+  scene("A picnic", "picnic", 0.15, [[0.33, 0.20], [0.38, 0.44], [0.17, 0.82], [0.68, 0.46], [0.75, 0.80]]),
+  scene("A chessboard", "chess", 0.18, [[0.36, 0.22], [0.40, 0.37], [0.37, 0.78], [0.68, 0.45], [0.75, 0.75]]),
+  scene("A mouse on a string", "string", 0.17, [[0.31, 0.19], [0.55, 0.20], [0.37, 0.78], [0.69, 0.42], [0.72, 0.80]]),
+  scene("An umbrella", "umbrella", 0.15, [[0.36, 0.28], [0.50, 0.57], [0.33, 0.82], [0.60, 0.55], [0.65, 0.81]]),
+  scene("Do not disturb", "nap", 0.20, [[0.19, 0.30], [0.47, 0.50], [0.87, 0.72], [0.32, 0.43], [0.45, 0.70]]),
+  scene("A block tower", "tower", 0.16, [[0.31, 0.20], [0.48, 0.36], [0.38, 0.78], [0.66, 0.47], [0.78, 0.78]]),
+  scene("Bubbles", "bubbles", 0.17, [[0.28, 0.19], [0.43, 0.56], [0.37, 0.80], [0.68, 0.38], [0.75, 0.80]]),
+  scene("A familiar monitor", "monitor", 0.17, [[0.28, 0.25], [0.32, 0.38], [0.27, 0.78], [0.50, 0.42], [0.47, 0.82]]),
+  scene("Laundry", "laundry", 0.15, [[0.40, 0.22], [0.47, 0.40], [0.28, 0.80], [0.60, 0.22], [0.72, 0.42]]),
+  scene("Borrowed moonlight", "moon", 0.17, [[0.30, 0.22], [0.38, 0.52], [0.33, 0.78], [0.65, 0.68], [0.72, 0.74]]),
+  scene("A very slow boat", "boat", 0.14, [[0.33, 0.22], [0.35, 0.60], [0.45, 0.75], [0.68, 0.50], [0.70, 0.68]]),
 ];

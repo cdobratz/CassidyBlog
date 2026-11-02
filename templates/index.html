@@ -1,19 +1,18 @@
 {% extends "base.html" %}
 
-{% block title %}My Boring Portfolio{% endblock %}
+{% block title %}My Not Boring Portfolio{% endblock %}
 {% block body_class %}is-home{% endblock %}
 
 {% block content %}
 <div class="sky" aria-hidden="true"></div>
-<div class="stage" data-meadow tabindex="0" role="application" aria-label="A boy in a field with one object beside him. Scroll, drag, or use the arrow keys to swap the object."></div>
+<div class="stage" data-meadow tabindex="0" role="application" aria-label="A man and his dog in a field with one object between them. Scroll, drag, or use the arrow keys to swap the object."></div>
 <section class="hero">
     <h1 class="hero__word">
         <span class="hero__row">
-            <em class="no" hidden>Not </em>
-            <span data-type="true">My Boring Portfolio</span>
+            <span data-type="true">My </span><em class="no">Not </em><span data-type-end="true">Boring Portfolio</span>
         </span>
     </h1>
-    <p class="hero__blurb">Transforming complexity into clarity through ML pipelines and cloud-native systems.</p>
+    <p class="hero__blurb">Boring stuff about AI, data, engineering, and little things that I want to understand more.</p>
     <p class="hero__go">
         <a class="seam" href="{{ url_for('blog') }}">
             <span>Read the blog</span>

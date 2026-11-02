@@ -7,10 +7,10 @@ import { SCENES } from "./props.js";
 
 // Turntable, after the reference meadow: an orthographic camera at a low,
 // fixed elevation orbits the clearing one detent (15 degrees) per scene. The
-// painted boy and his object always face the camera, so turning moves the
+// painted man and his dog always face the camera, so turning moves the
 // field around them while the picture morphs to the next scene.
 
-const COUNT = SCENES.length; // 24
+const COUNT = SCENES.length;
 const STEP = (Math.PI * 2) / COUNT;
 const ELEVATION = THREE.MathUtils.degToRad(10);
 const DISTANCE = 40;
@@ -18,7 +18,7 @@ const FRAME = 6.4; // world units of frame height
 // The reference frames a 26-unit-tall view around a 12 x 8 picture; the
 // picture is scaled so it takes the same share of our frame.
 const ART = FRAME / 21;
-const LOOK_Y = 1.7; // look above the boy so the mound sits in the lower half
+const LOOK_Y = 1.7; // look above the man so the mound sits in the lower half
 const EASE = 9;
 const WHEEL_GAP = 320; // ms between wheel detents
 const DRAG_PX = 90; // pixels of drag per detent

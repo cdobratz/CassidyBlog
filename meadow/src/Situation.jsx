@@ -3,7 +3,7 @@ import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 import { SCENES } from "./props.js";
 
-// The boy and his object are not models: each scene is one painted picture on
+// The man and his dog are not models: each scene is one painted picture on
 // a plane that always faces the camera. The shader keys out the magenta
 // background, and a change of scene morphs one picture into the next by
 // pulling the image toward five shared landmarks while the colour crossfades

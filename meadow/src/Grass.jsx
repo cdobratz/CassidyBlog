@@ -11,7 +11,7 @@ import * as THREE from "three";
 // The grass is a small mound floating on the paper, not a field: dense fine
 // blades with tall wisps rising around the rim, like the reference.
 export const FIELD = 3.9; // radius of the grass mound
-export const CLEARING = 1.3; // shorter grass where the boy stands
+export const CLEARING = 1.3; // shorter grass where the man sits
 
 const NOISE = `
 float hash12(vec2 p) {
@@ -202,7 +202,7 @@ export function Grass({ night, reduced }) {
       const radius = Math.sqrt(random()) * FIELD;
       const x = Math.cos(angle) * radius;
       const z = Math.sin(angle) * radius;
-      // A dense sward of fine blades, a touch shorter where the boy stands,
+      // A dense sward of fine blades, a touch shorter where the man sits,
       // thinning at the rim, with tall wisps rising mostly toward the edge.
       const clear = THREE.MathUtils.smoothstep(radius, CLEARING * 0.5, CLEARING * 1.4);
       const rim = 1 - THREE.MathUtils.smoothstep(radius, FIELD * 0.84, FIELD);
