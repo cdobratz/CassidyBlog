@@ -10,8 +10,8 @@
         return;
     }
     var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    var restLabel = "My Not Boring Portfolio";
-    var hoverLabel = "My Boring Portfolio";
+    var restLabel = "My Boring Portfolio";
+    var hoverLabel = "My Not Boring Portfolio";
 
     function split(node, mode) {
         var text = node.textContent;
@@ -119,20 +119,20 @@
         word.setAttribute("aria-label", hoveringNow ? hoverLabel : restLabel);
     }
 
-    // "Not" is part of the title at rest. Hovering the letters erases it, so
-    // the title briefly admits to being boring; leaving types it back.
+    // At rest the title admits to being boring. Hovering the letters types
+    // "Not" into the middle; leaving erases it again.
     function reveal(on) {
         var token = ++job;
         hovering = on;
         if (reduced) {
             extra.forEach(function (ch) {
-                show(ch, !on);
+                show(ch, on);
             });
             setLabel(on);
             return Promise.resolve();
         }
         caret.classList.add("caret--on");
-        var run = on ? erase(extra, 34) : type(extra, 46);
+        var run = on ? type(extra, 46) : erase(extra, 34);
         return run.then(function () {
             if (last.length) {
                 placeCaret(last[last.length - 1]);
@@ -183,7 +183,7 @@
     }
 
     if (reduced) {
-        first.concat(extra, last).forEach(function (ch) {
+        first.concat(last).forEach(function (ch) {
             show(ch, true);
         });
         caret.remove();
@@ -192,14 +192,11 @@
         return;
     }
 
-    // Intro types the whole title, "Not" included, in reading order.
+    // Intro types only "My Boring Portfolio". "Not" waits for a hover.
     caret.classList.add("caret--on");
     wait(640)
         .then(function () {
             return type(first, 52);
-        })
-        .then(function () {
-            return type(extra, 46);
         })
         .then(function () {
             return type(last, 52);
