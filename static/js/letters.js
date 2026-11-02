@@ -162,12 +162,25 @@
 
     // React only when the cursor reaches the letters themselves; restore once
     // it leaves the whole title.
-    [head, aside, tail].forEach(function (node) {
+    var letters = [head, aside, tail];
+    letters.forEach(function (node) {
         node.addEventListener("pointerenter", onEnter);
     });
     word.addEventListener("pointerleave", onLeave);
-    word.addEventListener("focus", onEnter);
+    // Keyboard focus only: a click on the title would otherwise count too.
+    word.addEventListener("focus", function () {
+        if (word.matches(":focus-visible")) {
+            onEnter();
+        }
+    });
     word.addEventListener("blur", onLeave);
+
+    // The heading is a full-width block, so test the letters, not the block.
+    function overLetters() {
+        return letters.some(function (node) {
+            return node.matches(":hover");
+        });
+    }
 
     if (reduced) {
         first.concat(extra, last).forEach(function (ch) {
@@ -197,9 +210,10 @@
         .then(function () {
             ready = true;
             setLabel(false);
-            if (hovering || word.matches(":hover") || word.matches(":focus")) {
+            if (overLetters() || word.matches(":focus-visible")) {
                 return reveal(true);
             }
+            hovering = false;
             caret.classList.remove("caret--on");
         });
 })();
