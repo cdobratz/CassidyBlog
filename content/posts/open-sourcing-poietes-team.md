@@ -1,10 +1,10 @@
-# Poietes-Team: An Open-Source Multi-Agent CLI Built for Safer Automation
+# Poietes-Team: An Open Source Multi Agent CLI Built for Safer Automation
 
 *November 5, 2026 | By Cassidy Dobratz*
 
 Back in March I wrote about [building a team of AI agents](/blog/building-team-of-ai-agents). Poietes-Team is now open source under the Apache-2.0 license: **[github.com/cdobratz/Poietes-Team](https://github.com/cdobratz/Poietes-Team)**.
 
-It is a small Python CLI. A supervisor takes a task in plain language and routes it to specialist agents that monitor, audit, and propose code changes across your projects, then reports back on the command line or in Telegram. It is also the free, hands-on piece of what we build at [Poietes](https://poietes.org), alongside TraceLamp and [ParseHub](https://parsehub.dev). If you want to see how we think about agents and code, this is the place to start.
+It is a small Python CLI. A supervisor takes a task in plain language and routes it to specialist agents that monitor, audit, and propose code changes across your projects, then reports back on the command line or in Telegram. It is also the free, hands on piece of what we build at [Poietes](https://poietes.org), alongside [TraceLamp](https://tracelamp.dev) and [ParseHub](https://parsehub.dev). If you want to see how we think about agents and code, this is the place to start.
 
 ## What's in the box
 
@@ -14,7 +14,7 @@ It is a small Python CLI. A supervisor takes a task in plain language and routes
 - **Content.** Drafts READMEs, changelog entries, and docstrings
 - **Filesystem.** Scans, searches, and maps any directory with no config required
 
-LLM calls go through LiteLLM, so Anthropic, xAI, Ollama, and MiniMax all work. Memory uses Mem0 if you configure it. Otherwise it stays in-process and disappears when the run ends.
+LLM calls go through LiteLLM, so Anthropic, xAI, Ollama, and MiniMax all work. Memory uses Mem0 if you configure it. Otherwise it stays inside the process and disappears when the run ends.
 
 ```bash
 pip install -r requirements.txt
@@ -29,7 +29,7 @@ python main.py run --task "scan all projects" --dry-run
 
 Running a private project is very different from handing other people a tool that asks an LLM to edit their files. Before release I reviewed the code for gaps and shipped a hardening pass. These are the lessons I'd pass on to anyone building agent tooling.
 
-**1. Default to read-only.** `workspace.approval_required` is `true` out of the box. The coder and content agents plan their edits but write nothing until you switch writes on for a project you trust. An agent's first run should never be the one that surprises you.
+**1. Default to read only.** `workspace.approval_required` is `true` out of the box. The coder and content agents plan their edits but write nothing until you switch writes on for a project you trust. An agent's first run should never be the one that surprises you.
 
 **2. Never trust a path the model gives you.** Every file path an agent supplies now goes through a single `safe_join` helper, which rejects `../` tricks and absolute paths. One choke point is far easier to test than a dozen scattered `os.path.join` calls.
 
@@ -39,7 +39,7 @@ Running a private project is very different from handing other people a tool tha
 
 **5. Make config fail loudly.** An unset `${VAR}` is now an error instead of silently becoming an empty string. `${VAR:-default}` gives you an explicit fallback, and unknown keys are rejected so typos don't pass quietly.
 
-**6. Run containers as non-root, with no Docker socket.** Config is mounted read-only, and the runner is one-shot instead of restarting forever.
+**6. Run containers as a user who is not root, with no Docker socket.** Config is mounted read only, and the runner is one shot instead of restarting forever.
 
 **7. Be honest about stubs.** The GitHub, GitLab, and deploy skills are placeholders. They now say so explicitly by returning `not_implemented` instead of pretending to succeed, and the README says so too.
 

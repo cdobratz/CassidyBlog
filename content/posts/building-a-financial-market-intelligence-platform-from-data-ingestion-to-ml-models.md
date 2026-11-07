@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Over the past few weeks, I've built a **production-ready financial market intelligence platform** that demonstrates end-to-end data science and engineering skills. This article walks you through the architecture, key technical decisions, and lessons learned.
+Over the past few weeks, I've built a **production ready financial market intelligence platform** that demonstrates end to end data science and engineering skills. This article walks you through the architecture, key technical decisions, and lessons learned.
 
 The project combines **data engineering** (ETL pipelines), **data analytics** (feature engineering and exploration), and **data science** (machine learning models) into a unified system. Whether you're new to the data field or looking to level up your skills, there's something here for you.
 
@@ -14,7 +14,7 @@ The project combines **data engineering** (ETL pipelines), **data analytics** (f
 
 ## The Problem: Why Build This?
 
-Financial markets generate enormous amounts of data—stock prices, trading volumes, economic indicators, news sentiment. The challenge isn't getting the data; it's converting it into **actionable intelligence**.
+Financial markets generate enormous amounts of data: stock prices, trading volumes, economic indicators, and news sentiment. The challenge isn't getting the data. It's converting it into **actionable intelligence**.
 
 Traditional approaches often struggle with:
 
@@ -50,7 +50,7 @@ Using **Apache Airflow DAGs**, I built a fully orchestrated pipeline that:
 - Collects financial news from News API
 - Stores everything as Parquet files for efficient querying
 
-**Key insight**: Parquet format is 10-20x faster than CSV for large datasets and supports columnar compression.
+**Key insight**: Parquet format is 10 to 20 times faster than CSV for large datasets and supports columnar compression.
 
 ### Layer 2: Data Validation & Profiling
 
@@ -61,7 +61,7 @@ Before training models, raw data goes through validation:
 - Null value analysis (understand missing data patterns)
 - OHLC consistency checks (ensures Open ≤ High and Low ≤ Close)
 
-This catches ~5-10% of data quality issues before they reach models.
+This catches ~5 to 10% of data quality issues before they reach models.
 
 ### Layer 3: Feature Engineering
 
@@ -69,29 +69,29 @@ This is where the magic happens. The pipeline automatically generates **50+ feat
 
 **Technical Indicators** (11 total):
 
-- RSI (Relative Strength Index) - measures momentum
-- MACD (Moving Average Convergence Divergence) - trend following
-- Bollinger Bands - volatility measurement
+- RSI (Relative Strength Index): measures momentum
+- MACD (Moving Average Convergence Divergence): trend following
+- Bollinger Bands: volatility measurement
 - ATR, Stochastic Oscillator, Williams %R, and more
 
-**Time-Series Features** (8 types):
+**Time Series Features** (8 types):
 
 - Lag features: Yesterday's close, last week's return
-- Rolling statistics: 5-day and 20-day moving averages
+- Rolling statistics: 5 day and 20 day moving averages
 - Momentum: Price acceleration and rate of change
 - Volatility: Standard deviation of returns
 
-**Cross-Cutting Features**:
+**Cross Cutting Features**:
 
 - Price relationships (high/low spread, OHLC ratios)
-- Volume analysis (on-balance volume, moving average ratio)
+- Volume analysis (on balance volume, moving average ratio)
 - Sentiment scores from news data
 
-The result: 2,992 training samples × 56 features = **rich, multi-dimensional data** for ML models.
+The result: 2,992 training samples × 56 features = **rich, multidimensional data** for ML models.
 
-### Layer 4: Feature Engineering Performance - Pandas vs. Fireducks
+### Layer 4: Feature Engineering Performance: Pandas vs. Fireducks
 
-Here's where things got interesting. I benchmarked **Pandas** (the industry standard) against **Fireducks** (a newer, GPU-optimized alternative).
+Here's where things got interesting. I benchmarked **Pandas** (the industry standard) against **Fireducks** (a newer, GPU optimized alternative).
 
 | Dataset Size | Operation | Pandas | Fireducks | Speedup |
 | - | - | - | - | - |
@@ -100,9 +100,9 @@ Here's where things got interesting. I benchmarked **Pandas** (the industry stan
 | 10M rows | Rolling Window | 3.4s | 2.1s | **1.6x** |
 | 10M rows | Full Pipeline | 8.7s | 5.2s | **1.67x** |
 
-Fireducks showed **40-70% speedup** on larger datasets with the same pandas-compatible API. This is valuable for production systems where processing time directly impacts costs.
+Fireducks showed **40 to 70% speedup** on larger datasets with the same pandas compatible API. This is valuable for production systems where processing time directly impacts costs.
 
-**Learning**: Benchmarking isn't just an academic exercise—it's critical for production decisions.
+**Learning**: Benchmarking isn't just an academic exercise. It's critical for production decisions.
 
 ### Layer 5: Machine Learning Models
 
@@ -115,9 +115,9 @@ I implemented **multiple model types** to demonstrate versatility:
 
 XGBoost was chosen because:
 
-1. Handles non-linear relationships in financial data
+1. Handles nonlinear relationships in financial data
 2. Native feature importance for interpretability
-3. Built-in cross-validation and early stopping
+3. Built in cross validation and early stopping
 4. Fast training and inference
 
 **Why these metrics matter**:
@@ -135,7 +135,7 @@ Every model training run is logged to **MLflow**, capturing:
 - Model artifacts (serialized model files)
 - Training metadata (date, duration, data version)
 
-This creates an **audit trail** and enables reproducibility—critical for compliance and debugging.
+This creates an **audit trail** and enables reproducibility, which is critical for compliance and debugging.
 
 ---
 
@@ -149,7 +149,7 @@ Apache Airflow handles **complex dependencies** between tasks:
 load_data → validate_data → engineer_features → train_model → evaluate → register
 ```
 
-If validation fails, downstream tasks don't run. If training takes too long, we get alerts. DAGs are version-controlled in Git.
+If validation fails, downstream tasks don't run. If training takes too long, we get alerts. DAGs are version controlled in Git.
 
 **Alternative I considered**: cron jobs + bash scripts
 
@@ -180,7 +180,7 @@ This means:
 
 ### 1. Start with Data Quality, Not Models
 
-I spent 20% of time on data validation and 80% is wasted debugging why models behave strangely. It's inverted for most projects because data quality problems aren't visible until models fail.
+I spent 20% of the time on data validation, and 80% was wasted debugging why models behave strangely. It's inverted for most projects, because data quality problems aren't visible until models fail.
 
 ### 2. Feature Engineering Beats Algorithm Selection
 
@@ -200,14 +200,14 @@ Writing clear docstrings and README files feels slow initially. But when I come 
 
 The platform demonstrates:
 
-✅ **Data Engineering**: Multi-source data pipelines, performance optimization, data validation  
+✅ **Data Engineering**: Data pipelines from multiple sources, performance optimization, data validation  
 ✅ **Data Science**: Feature engineering (50+ features), multiple model types, evaluation metrics  
 ✅ **Data Analytics**: Exploratory analysis, performance benchmarking, visualization  
 ✅ **MLOps**: Orchestration, experiment tracking, model versioning, containerization  
 
 **Quantified Impact**:
 
-- 3,500+ lines of production-grade code
+- 3,500+ lines of production grade code
 - 18+ integration tests
 - 50+ engineered features
 - 5+ model types implemented
@@ -221,9 +221,9 @@ This MVP validates the architecture. Next phases include:
 
 1. **Adding more data sources**: Economic calendars, earnings reports, alternative data
 2. **Deep learning models**: LSTMs for sequential prediction
-3. **Real-time serving**: FastAPI endpoints for live predictions
+3. **Real time serving**: FastAPI endpoints for live predictions
 4. **Production deployment**: Cloud infrastructure with monitoring
-5. **Performance dashboards**: Grafana/Datadog for real-time metrics
+5. **Performance dashboards**: Grafana/Datadog for real time metrics
 
 ---
 
@@ -253,4 +253,4 @@ Have thoughts on this architecture? Notice something I missed? Drop a comment be
 
 ---
 
-**About the Author**: I'm a data engineer focused on building production ML systems. This project is part of my portfolio showcasing end-to-end data platform development.
+**About the Author**: I'm a data engineer focused on building production ML systems. This project is part of my portfolio showcasing end to end data platform development.
