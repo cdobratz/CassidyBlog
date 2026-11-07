@@ -1,4 +1,4 @@
-# Open-Sourcing Poietes-Team: What Hardening a Multi-Agent CLI Taught Me
+# Poietes-Team: An Open-Source Multi-Agent CLI Built for Safer Automation
 
 *November 5, 2026 | By Cassidy Dobratz*
 
@@ -8,13 +8,11 @@ It is a small Python CLI. A supervisor takes a task in plain language and routes
 
 ## What's in the box
 
-| Agent | What it does |
-|---|---|
-| Monitor | File and line counts, TODO/FIXME markers, git status, outdated dependencies |
-| Coder | Plans file edits from a task, and applies them only when you allow writes |
-| Security | Runs Bandit, Semgrep, and a dependency audit, then summarizes the results |
-| Content | Drafts READMEs, changelog entries, and docstrings |
-| Filesystem | Scans, searches, and maps any directory with no config required |
+- **Monitor.** File and line counts, TODO/FIXME markers, git status, outdated dependencies
+- **Coder.** Plans file edits from a task, and applies them only when you allow writes
+- **Security.** Runs Bandit, Semgrep, and a dependency audit, then summarizes the results
+- **Content.** Drafts READMEs, changelog entries, and docstrings
+- **Filesystem.** Scans, searches, and maps any directory with no config required
 
 LLM calls go through LiteLLM, so Anthropic, xAI, Ollama, and MiniMax all work. Memory uses Mem0 if you configure it. Otherwise it stays in-process and disappears when the run ends.
 
