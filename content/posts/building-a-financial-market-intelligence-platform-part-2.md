@@ -2,9 +2,9 @@
 
 *February 07, 2026 | By Cassidy Dobratz*
 
-In [Part 1](https://cassidydobratz.com/blog/building-a-financial-market-intelligence-platform-from-data-ingestion-to-ml-models), I walked through the architecture of my Financial Market Intelligence Platform — the data ingestion pipeline, feature engineering, and getting a basic XGBoost model up and running with MLflow tracking. It was a solid foundation, but I'll be honest: the model results were... humbling. An R² of 0.353 isn't going to impress anyone on a trading desk.
+In [Part 1](https://cassidydobratz.com/blog/building-a-financial-market-intelligence-platform-from-data-ingestion-to-ml-models), I walked through the architecture of my Financial Market Intelligence Platform: the data ingestion pipeline, feature engineering, and getting a basic XGBoost model up and running with MLflow tracking. It was a solid foundation, but I'll be honest: the model results were... humbling. An R² of 0.353 isn't going to impress anyone on a trading desk.
 
-So I went back to the drawing board. Not to scrap the project, but to address the hard truth that building an ML pipeline is only half the battle. The other half is making your models actually learn something meaningful from the data. In this post, I'll walk through four major changes I made — and why each one matters.
+So I went back to the drawing board. Not to scrap the project, but to address the hard truth that building an ML pipeline is only half the battle. The other half is making your models actually learn something meaningful from the data. In this post, I'll walk through four major changes I made, and why each one matters.
 
 [Live Demo](https://market-intel-api-1001565765695.us-west1.run.app/)
 
@@ -16,9 +16,9 @@ My first version used a standard 80/20 train/test split. Straightforward, widely
 
 Here's the issue: financial data is temporal. If you randomly shuffle your data and split it, your model gets to "peek" at future information during training. It might train on data from March and test on data from January. In a textbook ML course that's fine. In finance, it's a recipe for overfitting and a model that looks great in backtesting but falls apart in production.
 
-### Walk-Forward Validation
+### Walk Forward Validation
 
-I replaced the static split with walk-forward validation using scikit-learn's `TimeSeriesSplit`. The idea is simple but powerful: train on an expanding window of past data, then test on the next N days. Slide the window forward and repeat.
+I replaced the static split with walk forward validation using scikit-learn's `TimeSeriesSplit`. The idea is simple but powerful: train on an expanding window of past data, then test on the next N days. Slide the window forward and repeat.
 
 ```python
 from sklearn.model_selection import TimeSeriesSplit
@@ -44,7 +44,7 @@ def walk_forward_validation(model, X, y, n_splits=5, test_size=30):
     }
 ```
 
-This simulates how the model would actually perform if deployed: it only ever sees past data when making predictions. The standard deviation of RMSE across folds also tells you something important — how *stable* your model is over time. A model that nails one period but blows up in another isn't useful, even if the average looks decent.
+This simulates how the model would actually perform if deployed: it only ever sees past data when making predictions. The standard deviation of RMSE across folds also tells you something important: how *stable* your model is over time. A model that nails one period but blows up in another isn't useful, even if the average looks decent.
 
 This is standard practice in quantitative finance for good reason. If you're building ML models on time series and you aren't doing this, your performance metrics are lying to you.
 
@@ -52,13 +52,13 @@ This is standard practice in quantitative finance for good reason. If you're bui
 
 ## Better Targets, Better Signals
 
-The next issue was more fundamental: I was predicting raw returns, and raw returns are noisy. The signal-to-noise ratio in daily stock returns is notoriously low, which means a model trained on them is mostly learning noise.
+The next issue was more fundamental: I was predicting raw returns, and raw returns are noisy. The signal to noise ratio in daily stock returns is notoriously low, which means a model trained on them is mostly learning noise.
 
 I introduced two key improvements to the prediction targets.
 
-### Volatility-Adjusted Returns
+### Volatility Adjusted Returns
 
-Instead of predicting raw 5-day returns, I started predicting volatility-adjusted returns — essentially a rolling Sharpe ratio. This normalizes the signal relative to recent market turbulence, so a 2% gain during a calm week is treated differently from a 2% gain during a volatile selloff.
+Instead of predicting raw 5 day returns, I started predicting volatility adjusted returns, essentially a rolling Sharpe ratio. This normalizes the signal relative to recent market turbulence, so a 2% gain during a calm week is treated differently from a 2% gain during a volatile selloff.
 
 ```python
 df['vol_20d'] = df['close'].pct_change().rolling(20).std()
@@ -90,15 +90,15 @@ def create_triple_barrier_labels(prices, take_profit=0.02, stop_loss=0.01, max_h
     return pd.Series(labels + [np.nan] * max_holding, index=prices.index)
 ```
 
-This maps much more closely to how actual trading decisions work. You're not trying to predict an exact number — you're trying to classify whether a trade setup is likely to be profitable within a risk framework. The result was roughly a 10–20% improvement in classification accuracy compared to raw return prediction.
+This maps much more closely to how actual trading decisions work. You're not trying to predict an exact number. You're trying to classify whether a trade setup is likely to be profitable within a risk framework. The result was roughly a 10 to 20% improvement in classification accuracy compared to raw return prediction.
 
 ---
 
 ## 56 Features Is Too Many Features
 
-My pipeline was generating 56 features — every technical indicator I could think of, plus lag features, rolling statistics, and sentiment scores. The problem is that many of these are redundant (SMA-20 and Bollinger Band middle are literally the same value), and the noisy ones were giving the model too many opportunities to overfit.
+My pipeline was generating 56 features. That was every technical indicator I could think of, plus lag features, rolling statistics, and sentiment scores. The problem is that many of these are redundant (SMA-20 and Bollinger Band middle are literally the same value), and the noisy ones were giving the model too many opportunities to overfit.
 
-I added a `FeatureSelector` class that supports three methods: mutual information scoring, correlation-based filtering, and recursive feature elimination.
+I added a `FeatureSelector` class that supports three methods: mutual information scoring, correlation based filtering, and recursive feature elimination.
 
 ```python
 class FeatureSelector:
@@ -118,7 +118,7 @@ class FeatureSelector:
             return sorted_features.index[:n_features].tolist()
 ```
 
-In practice, I found that cutting from 56 features down to about 20 actually *improved* test set performance while cutting training time nearly in half. That's the paradox of high-dimensional data — more features doesn't mean more information. It usually means more noise.
+In practice, I found that cutting from 56 features down to about 20 actually *improved* test set performance while cutting training time nearly in half. That's the paradox of high dimensional data. More features don't mean more information. It usually means more noise.
 
 ---
 
@@ -126,7 +126,7 @@ In practice, I found that cutting from 56 features down to about 20 actually *im
 
 The single XGBoost model was decent, but it was also unstable. Small changes in the training data could swing predictions significantly. The fix: a stacking ensemble that combines multiple base learners.
 
-I set up four base models — XGBoost, LightGBM, Random Forest, and Ridge Regression — and stacked them with a RidgeCV meta-learner on top. The key design decision was using a simple linear model as the meta-learner rather than another tree-based model, which helps prevent the ensemble from overfitting to the base model outputs.
+I set up four base models: XGBoost, LightGBM, Random Forest, and Ridge Regression. I stacked them with a RidgeCV meta learner on top. The key design decision was using a simple linear model as the meta learner rather than another tree based model, which helps prevent the ensemble from overfitting to the base model outputs.
 
 ```python
 from sklearn.ensemble import StackingRegressor
@@ -150,9 +150,9 @@ class StackingEnsemble:
         )
 ```
 
-Each base model brings a different inductive bias. XGBoost and LightGBM are strong on non-linear feature interactions but in different ways. Random Forest averages many decorrelated trees. Ridge provides a linear baseline that's hard to overfit. The meta-learner figures out which base model to trust in which situations.
+Each base model brings a different inductive bias. XGBoost and LightGBM are strong on nonlinear feature interactions but in different ways. Random Forest averages many decorrelated trees. Ridge provides a linear baseline that's hard to overfit. The meta learner figures out which base model to trust in which situations.
 
-The expected improvement is meaningful: R² moving from the 0.35 range up to 0.45–0.55, with more stable predictions across different market conditions. Just as importantly, the predictions are less volatile — the ensemble smooths out the individual quirks of each model.
+The expected improvement is meaningful: R² moving from the 0.35 range up to 0.45 to 0.55, with more stable predictions across different market conditions. Just as importantly, the predictions are less volatile. The ensemble smooths out the individual quirks of each model.
 
 ---
 
@@ -160,7 +160,7 @@ The expected improvement is meaningful: R² moving from the 0.35 range up to 0.4
 
 If I had to distill Part 2 into a single takeaway, it's this: **the pipeline is not the product. The model quality is.**
 
-It's tempting as an engineer to spend weeks perfecting the Docker setup, the DAG orchestration, the MLflow tracking dashboards. And all of that matters — I covered it in Part 1. But the gap between "a pipeline that runs" and "a pipeline that produces useful predictions" is bridged by the less glamorous work: proper validation, thoughtful target engineering, disciplined feature selection, and robust model architecture.
+It's tempting as an engineer to spend weeks perfecting the Docker setup, the DAG orchestration, the MLflow tracking dashboards. And all of that matters. I covered it in Part 1. But the gap between "a pipeline that runs" and "a pipeline that produces useful predictions" is bridged by the less glamorous work: proper validation, thoughtful target engineering, disciplined feature selection, and robust model architecture.
 
 The project is still a work in progress. Next on the list are market regime detection (training separate models for bull, bear, and sideways conditions), upgrading the sentiment analysis from keyword matching to FinBERT, and thinking about deployment costs. But that's a story for Part 3.
 

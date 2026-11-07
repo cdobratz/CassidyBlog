@@ -31,7 +31,7 @@ Perhaps more interesting than what's being said is *how* it's being said. I anal
 
 ![Chart 2](/static/uploads/doj_google_blog_post/Heatmap.png)
 
-*Sentiment Analysis Heatmap showing document sections on x-axis and sentiment types (positive, negative, net) on y-axis. Colors should range from red (negative) through white (neutral) to blue (positive), revealing patterns of sentiment changes throughout the coverage.*
+*Sentiment Analysis Heatmap showing document sections on x axis and sentiment types (positive, negative, net) on y axis. Colors should range from red (negative) through white (neutral) to blue (positive), revealing patterns of sentiment changes throughout the coverage.*
 
 The results are fascinating. Rather than uniformly negative or positive coverage, there are clear emotional transitions throughout the articles. Some sections show strong negative sentiment when discussing Google's market dominance, while others become more positive when covering potential benefits for consumers and competitors.
 
@@ -61,7 +61,7 @@ The analysis reveals several important insights about how major news outlets app
 
 **Balanced but Structured Narrative**: Rather than taking a single stance, outlets are presenting multiple perspectives but in a clearly structured way. The sentiment analysis shows strategic emotional peaks and valleys that guide readers through the complexity.
 
-**Multi-Dimensional Framing**: The four distinct topics show that outlets aren't just focusing on one angle. They're presenting legal, technical, business, and competitive perspectives simultaneously, giving readers a comprehensive view.
+**Multidimensional Framing**: The four distinct topics show that outlets aren't just focusing on one angle. They're presenting legal, technical, business, and competitive perspectives simultaneously, giving readers a comprehensive view.
 
 **Strategic Emotional Guidance**: The sentiment patterns suggest that outlets are carefully managing how readers feel about different aspects of the story, building emotional engagement while maintaining journalistic objectivity.
 
@@ -69,7 +69,7 @@ The analysis reveals several important insights about how major news outlets app
 
 This analysis reveals something important about how we consume news about complex tech issues. Media outlets are using sophisticated narrative techniques to help readers navigate stories that span legal, technical, and business domains.
 
-The DOJ vs. Google case isn't just about one company or one browser – it's about the future of digital markets, consumer choice, and regulatory power in the tech age. The way outlets are covering it reflects the story's complexity and importance.
+The DOJ vs. Google case isn't just about one company or one browser. It's about the future of digital markets, consumer choice, and regulatory power in the tech age. The way outlets are covering it reflects the story's complexity and importance.
 
 ## What's Next?
 
